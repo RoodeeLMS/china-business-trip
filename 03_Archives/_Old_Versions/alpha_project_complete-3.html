@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>#Alpha_Project - China Trip Dashboard</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; }
+        .navbar { background: rgba(255, 255, 255, 0.95); padding: 15px 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); position: sticky; top: 0; z-index: 1000; display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 24px; font-weight: bold; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .nav-tabs { display: flex; gap: 10px; }
+        .nav-tab { padding: 10px 20px; border: none; background: transparent; cursor: pointer; font-size: 14px; font-weight: 600; color: #666; border-radius: 8px; transition: all 0.3s; }
+        .nav-tab:hover { background: #f0f0f0; color: #667eea; }
+        .nav-tab.active { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 30px 20px; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .header { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin-bottom: 30px; text-align: center; }
+        .header h1 { color: #667eea; font-size: 32px; margin-bottom: 10px; }
+        .trip-info { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 20px; }
+        .info-card { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px; border-radius: 12px; text-align: center; }
+        .info-card .label { font-size: 12px; opacity: 0.9; text-transform: uppercase; letter-spacing: 1px; }
+        .info-card .value { font-size: 20px; font-weight: bold; margin-top: 5px; }
+        #google-map { height: 600px; width: 100%; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .map-info-panel { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin-top: 20px; }
+        .map-info-panel h2 { color: #667eea; margin-bottom: 15px; }
+        .location-item { margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid #e0e0e0; }
+        .location-item:last-child { border-bottom: none; }
+        .location-name { font-weight: 600; color: #202124; margin-bottom: 4px; }
+        .location-address { font-size: 13px; color: #5f6368; }
+        .legend { margin-top: 15px; padding-top: 15px; border-top: 2px solid #e0e0e0; }
+        .legend-item { display: flex; align-items: center; margin-bottom: 8px; font-size: 13px; }
+        .legend-marker { width: 12px; height: 12px; border-radius: 50%; margin-right: 8px; }
+        .airport { background-color: #ea4335; }
+        .hotel { background-color: #fbbc04; }
+        .factory { background-color: #34a853; }
+        .progress-bar { background: #f0f0f0; height: 30px; border-radius: 15px; overflow: hidden; margin-top: 20px; }
+        .progress-fill { background: linear-gradient(90deg, #667eea 0%, #764ba2 100%); height: 100%; width: 0%; transition: width 0.3s; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 14px; }
+        .checklist-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; }
+        .checklist-section { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .section-header { display: flex; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid #667eea; }
+        .section-icon { font-size: 32px; margin-right: 15px; }
+        .section-title { font-size: 20px; font-weight: bold; color: #333; }
+        .checklist-item { display: flex; align-items: center; padding: 12px; margin-bottom: 8px; border-radius: 10px; transition: all 0.3s; cursor: pointer; }
+        .checklist-item:hover { background: #f8f9fa; }
+        .checklist-item.checked { background: #e8f5e9; }
+        .checklist-item input[type="checkbox"] { width: 22px; height: 22px; margin-right: 12px; cursor: pointer; accent-color: #667eea; }
+        .item-label { flex: 1; color: #333; font-size: 15px; }
+        .checklist-item.checked .item-label { text-decoration: line-through; color: #999; }
+        .priority-badge { padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: bold; text-transform: uppercase; }
+        .priority-high { background: #ffebee; color: #c62828; }
+        .priority-medium { background: #fff3e0; color: #ef6c00; }
+        .actions { display: flex; gap: 10px; margin-top: 20px; }
+        .btn { flex: 1; padding: 12px 24px; border: none; border-radius: 10px; font-size: 14px; font-weight: bold; cursor: pointer; transition: all 0.3s; }
+        .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4); }
+        .btn-secondary { background: #f0f0f0; color: #333; }
+        .btn-secondary:hover { background: #e0e0e0; }
+        .itinerary-section { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin-bottom: 20px; }
+        .day-header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px 20px; border-radius: 12px; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .day-title { font-size: 20px; font-weight: bold; }
+        .day-date { font-size: 14px; opacity: 0.9; }
+        .timeline { position: relative; padding-left: 40px; }
+        .timeline::before { content: ''; position: absolute; left: 15px; top: 0; bottom: 0; width: 3px; background: linear-gradient(180deg, #667eea 0%, #764ba2 100%); }
+        .timeline-item { position: relative; margin-bottom: 20px; padding-bottom: 20px; }
+        .timeline-item::before { content: ''; position: absolute; left: -32px; top: 5px; width: 15px; height: 15px; border-radius: 50%; background: white; border: 3px solid #667eea; }
+        .time { font-weight: bold; color: #667eea; margin-bottom: 5px; }
+        .activity { font-size: 15px; color: #333; line-height: 1.6; }
+        .venue { font-size: 13px; color: #666; font-style: italic; margin-top: 5px; }
+        @media (max-width: 768px) {
+            .checklist-grid { grid-template-columns: 1fr; }
+            .header h1 { font-size: 24px; }
+            .nav-tabs { flex-wrap: wrap; }
+            .navbar { flex-direction: column; gap: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">#Alpha_Project</div>
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showTab('overview')">📋 Overview</button>
+            <button class="nav-tab" onclick="showTab('itinerary')">📅 Itinerary</button>
+            <button class="nav-tab" onclick="showTab('map')">🗺️ Map</button>
+            <button class="nav-tab" onclick="showTab('checklist')">✅ Checklist</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div id="overview" class="tab-content active">
+            <div class="header">
+                <h1>🚄 PSD FAT Doorway Test - China Trip</h1>
+                <div class="trip-info">
+                    <div class="info-card"><div class="label">Departure</div><div class="value">Nov 9, 2025</div></div>
+                    <div class="info-card"><div class="label">Return</div><div class="value">Nov 14, 2025</div></div>
+                    <div class="info-card"><div class="label">Duration</div><div class="value">6 Days</div></div>
+                    <div class="info-card"><div class="label">Destination</div><div class="value">Jiaxing, China</div></div>
+                </div>
+            </div>
+            <div class="itinerary-section">
+                <h2 style="color: #667eea; margin-bottom: 20px;">📍 Key Information</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                    <div><h3 style="color: #333; margin-bottom: 10px;">✈️ Flights</h3><p><strong>Outbound:</strong> TG662 - BKK 01:10 → PVG 06:25</p><p><strong>Return:</strong> TG665 - PVG 17:20 → BKK 21:15</p></div>
+                    <div><h3 style="color: #333; margin-bottom: 10px;">🏭 Test Facility</h3><p>Zhejiang Rongchen Technology Co., Ltd.</p><p style="font-size: 13px; color: #666;">No. 735 Yintan Road, Haiyan County</p></div>
+                    <div><h3 style="color: #333; margin-bottom: 10px;">📞 Key Contacts</h3><p>Mr. Aphiwut: 092-715-6265</p><p>Mr. Herh: +65 9759-7194</p></div>
+                    <div><h3 style="color: #333; margin-bottom: 10px;">🧪 Tests</h3><p>• FHPSD Doorway - FT7100</p><p>• FHPSD Structure - FT7300</p><p>• HHPSD Doorway - FT3000</p></div>
+                </div>
+            </div>
+            <div class="itinerary-section">
+                <h2 style="color: #667eea; margin-bottom: 20px;">👥 Team Members</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; font-size: 14px;">
+                    <div><strong>BEM:</strong> Anat, Kaimin, Suphakit</div>
+                    <div><strong>PCOR:</strong> Jerome, Khommapat</div>
+                    <div><strong>MRTA:</strong> Tanawut, Chawanakorn, Parunyu, Jirawat</div>
+                    <div><strong>STE:</strong> Aphiwut, Pongwet, Mustorfa, Titintorn, Herh</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="itinerary" class="tab-content">
+            <div class="header"><h1>📅 Detailed Itinerary</h1></div>
+            <div class="itinerary-section">
+                <div class="day-header"><div class="day-title">Day 1 - Departure & Arrival</div><div class="day-date">Nov 9-10, 2025</div></div>
+                <div class="timeline">
+                    <div class="timeline-item"><div class="time">23:00 (Nov 9)</div><div class="activity">Meet at Suvarnabhumi Airport</div></div>
+                    <div class="timeline-item"><div class="time">01:10</div><div class="activity">Departure TG662</div></div>
+                    <div class="timeline-item"><div class="time">06:25</div><div class="activity">Arrive Shanghai Pudong T2</div></div>
+                    <div class="timeline-item"><div class="time">13:00-17:00</div><div class="activity">Transfer of Technology / Workshop Manual</div><div class="venue">Zhejiang Rongchen Technology</div></div>
+                </div>
+            </div>
+            <div class="itinerary-section">
+                <div class="day-header"><div class="day-title">Day 2 - FHPSD Doorway Test</div><div class="day-date">Nov 11, 2025</div></div>
+                <div class="timeline">
+                    <div class="timeline-item"><div class="time">09:00-12:30</div><div class="activity">Welcome, Factory Tour & FT7100 Test</div></div>
+                    <div class="timeline-item"><div class="time">14:00-17:00</div><div class="activity">FT7100 Test Continued</div></div>
+                </div>
+            </div>
+            <div class="itinerary-section">
+                <div class="day-header"><div class="day-title">Day 3 - FHPSD Structure Test</div><div class="day-date">Nov 12, 2025</div></div>
+                <div class="timeline">
+                    <div class="timeline-item"><div class="time">09:00-17:00</div><div class="activity">FT7300 Structure/Frame/Cladding Test</div></div>
+                </div>
+            </div>
+            <div class="itinerary-section">
+                <div class="day-header"><div class="day-title">Day 4 - HHPSD Test</div><div class="day-date">Nov 13, 2025</div></div>
+                <div class="timeline">
+                    <div class="timeline-item"><div class="time">09:00-17:00</div><div class="activity">FT3000 HHPSD Doorway Module</div></div>
+                </div>
+            </div>
+            <div class="itinerary-section">
+                <div class="day-header"><div class="day-title">Day 5 - Final & Departure</div><div class="day-date">Nov 14, 2025</div></div>
+                <div class="timeline">
+                    <div class="timeline-item"><div class="time">09:00-12:00</div><div class="activity">FT3000 Continued & Conclusion</div></div>
+                    <div class="timeline-item"><div class="time">17:20</div><div class="activity">Departure TG665</div></div>
+                    <div class="timeline-item"><div class="time">21:15</div><div class="activity">Arrive Bangkok</div></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="map" class="tab-content">
+            <div class="header"><h1>🗺️ Trip Locations Map</h1></div>
+            <div id="google-map"></div>
+            <div class="map-info-panel">
+                <h2>📍 Key Locations</h2>
+                <div class="location-item"><div class="location-name">🏭 Zhejiang Rongchen Technology</div><div class="location-address">No. 735 Yintan Road, Xitangqiao, Haiyan County</div></div>
+                <div class="location-item"><div class="location-name">🏨 Courtyard Marriott Pinghu</div><div class="location-address">No.288 Wenwei Road, Pinghu</div></div>
+                <div class="location-item"><div class="location-name">🏨 Pullman Jiaxing Pinghu</div><div class="location-address">No 777 Fenshou Road, Pinghu</div></div>
+                <div class="location-item"><div class="location-name">✈️ Shanghai Pudong Airport</div><div class="location-address">Terminal 2</div></div>
+                <div class="legend">
+                    <div class="legend-item"><span class="legend-marker factory"></span>Factory</div>
+                    <div class="legend-item"><span class="legend-marker hotel"></span>Hotels</div>
+                    <div class="legend-item"><span class="legend-marker airport"></span>Airport</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="checklist" class="tab-content">
+            <div class="header">
+                <h1>🧳 Packing Checklist</h1>
+                <div class="progress-bar"><div class="progress-fill" id="progressBar">0%</div></div>
+            </div>
+            <div class="checklist-grid">
+                <div class="checklist-section">
+                    <div class="section-header"><span class="section-icon">📄</span><span class="section-title">Documents</span></div>
+                    <div class="checklist-item"><input type="checkbox" id="i1"><label class="item-label" for="i1">Passport (6+ months valid)</label><span class="priority-badge priority-high">Critical</span></div>
+                    <div class="checklist-item"><input type="checkbox" id="i2"><label class="item-label" for="i2">China Visa</label><span class="priority-badge priority-high">Critical</span></div>
+                    <div class="checklist-item"><input type="checkbox" id="i3"><label class="item-label" for="i3">Flight tickets</label><span class="priority-badge priority-high">Critical</span></div>
+                    <div class="checklist-item"><input type="checkbox" id="i4"><label class="item-label" for="i4">Hotel confirmation</label></div>
+                    <div class="checklist-item"><input type="checkbox" id="i5"><label class="item-label" for="i5">Travel insurance</label></div>
+                    <div class="checklist-item"><input type="checkbox" id="i6"><label class="item-label" for="i6">Emergency contacts</label></div>
+                    <div class="checklist-item"><input type="checkbox" id="i7"><label class="item-label" for="i7">Copy of itinerary</label></div>
+                </div>
+                <div class="checklist-section">
+                    <div class="section-header"><span class="section-icon">💼</span><span class="section-title">Work Materials</span></div>
+                    <div class="checklist-item"><input type="checkbox" id="i8"><label class="item-label" for="i8">Laptop & charger</label><span class="priority-badge priority-high">Critical</span></div>
+                    <div class="checklist-item"><input type="checkbox" id="i9"><label class="item-label" for="i9">Technical documents</label></div>
+                    <div class="checklist-item"><input type="checkbox" id="i10"><label class="item-label" for="i10">Test specs</label></div>
+                    <div class="checklist-item"><input type="checkbox" id="i11"><label class="item-label" for="i11">Notepad & pens</label></div>
+                    <div class="checklist-item"><input type="checkbox" id="i12"><label class="item-label" for="i12">Business cards</label></div>
+                    <div class="checklist-item"><input type="checkbox" id="i13"><label class="item-label" for="i13">Camera</label></div>
+                    <div class="checklist-item"><input type="checkbox" id="i14"><label class="item-label" for="i14">USB drives</label></div>
+                    <div class="checklist-item"><input type="checkbox" id="i15"><label class="item-label" for="i15">Power bank</label></div>
+                </div>
+                <div class="checklist-section">
+                    <div class="section-header"><span class="section-icon">👔</span><span class="section-title">Clothing</span></div>
+                    <div class="checklist-item"><input type="checkbox" id="i16"><label class="item-label" for="i16">Business attire (3-4 sets)</label></div>
+                    <div class="checklist-item"><input type="checkbox" id="i17"><label class="item-label" for="i17">Casual wear</label></div>
+                    <div class="checklist-item"><input type="checkbox" id="i18"><label class="item-label" for="i18">Safety shoes</label><span class="priority-badge priority-medium">Important</span></div>
+                    <div class="checklist-item"><input type="checkbox" id="i19"><label class="item-label" for="i19">Jacket/warm clothing</label></div>
+                    <div class="checklist-item"><input type="checkbox" id="i20"><label class="item-label" for="i20">Underwear & socks (6+)</label></div>
+                    <div class="checklist-item"><input type="checkbox" id="i21"><label class="item-label" for="i21">Sleepwear</label></div>
+                    <div class="checklist-item"><input type="checkbox" id="i22"><label class="item-label" for="i22">Walking shoes</label></div>
+                </div>
+                <div class="checklist-section">
+                    <div class="section-header"><span class="section-icon">🧴</span><span class="section-title">Toiletries</span></div>
+                    <div class="checklist-item"><input type="checkbox" id="i23"><label class="item-label" for="i23">Toothbrush & paste</label></div>
+                    <div class="checklist-item"><input type="checkbox" id="i24"><label class="item-label" for="i24">Shampoo & soap</label></div>
+                    <div class="checklist-item"><input type="checkbox" id="i25"><label class="item-label" for="i25">Deodorant</label></div>
+                    <div class="checklist-item"><input type="checkbox" id="i26"><label class="item-label" for="i26">Razor</label></div>
+                    <div class="checklist-item"><input type="checkbox" id="i27"><label class="item-label" for="i27">Medications</label><span class="priority-badge priority-high">Critical</span></div>
+                    <div class="checklist-item"><input type="checkbox" id="i28"><label class="item-label" for="i28">First aid kit</label></div>
+                    <div class="checklist-item"><input type="checkbox" id="i29"><label class="item-label" for="i29">Hand sanitizer</label></div>
+                    <div class="checklist-item"><input type="checkbox" id="i30"><label class="item-label" for="i30">Face masks</label></div>
+                </div>
+                <div class="checklist-section">
+                    <div class="section-header"><span class="section-icon">🔌</span><span class="section-title">Electronics</span></div>
+                    <div class="checklist-item"><input type="checkbox" id="i31"><label class="item-label" for="i31">Phone & charger</label><span class="priority-badge priority-high">Critical</span></div>
+                    <div class="checklist-item"><input type="checkbox" id="i32"><label class="item-label" for="i32">Power adapter (Type A/I)</label><span class="priority-badge priority-high">Critical</span></div>
+                    <div class="checklist-item"><input type="checkbox" id="i33"><label class="item-label" for="i33">Headphones</label></div>
+                    <div class="checklist-item"><input type="checkbox" id="i34"><label class="item-label" for="i34">Portable WiFi</label></div>
+                    <div class="checklist-item"><input type="checkbox" id="i35"><label class="item-label" for="i35">VPN setup</label><span class="priority-badge priority-medium">Important</span></div>
+                </div>
+                <div class="checklist-section">
+                    <div class="section-header"><span class="section-icon">💰</span><span class="section-title">Money</span></div>
+                    <div class="checklist-item"><input type="checkbox" id="i36"><label class="item-label" for="i36">Credit/Debit cards</label><span class="priority-badge priority-high">Critical</span></div>
+                    <div class="checklist-item"><input type="checkbox" id="i37"><label class="item-label" for="i37">Chinese Yuan (CNY)</label></div>
+                    <div class="checklist-item"><input type="checkbox" id="i38"><label class="item-label" for="i38">USD backup</label></div>
+                    <div class="checklist-item"><input type="checkbox" id="i39"><label class="item-label" for="i39">Alipay/WeChat Pay</label><span class="priority-badge priority-medium">Important</span></div>
+                    <div class="checklist-item"><input type="checkbox" id="i40"><label class="item-label" for="i40">Notify bank of travel</label></div>
+                </div>
+                <div class="checklist-section">
+                    <div class="section-header"><span class="section-icon">✅</span><span class="section-title">Pre-Departure</span></div>
+                    <div class="checklist-item"><input type="checkbox" id="i41"><label class="item-label" for="i41">Online check-in</label></div>
+                    <div class="checklist-item"><input type="checkbox" id="i42"><label class="item-label" for="i42">Confirm hotel</label></div>
+                    <div class="checklist-item"><input type="checkbox" id="i43"><label class="item-label" for="i43">Download offline maps</label></div>
+                    <div class="checklist-item"><input type="checkbox" id="i44"><label class="item-label" for="i44">Translation app</label></div>
+                    <div class="checklist-item"><input type="checkbox" id="i45"><label class="item-label" for="i45">Share itinerary</label></div>
+                    <div class="checklist-item"><input type="checkbox" id="i46"><label class="item-label" for="i46">Int'l roaming</label></div>
+                    <div class="checklist-item"><input type="checkbox" id="i47"><label class="item-label" for="i47">Save Aphiwut: 092-715-6265</label></div>
+                    <div class="checklist-item"><input type="checkbox" id="i48"><label class="item-label" for="i48">Save Herh: +65 9759-7194</label></div>
+                </div>
+                <div class="checklist-section">
+                    <div class="section-header"><span class="section-icon">🎒</span><span class="section-title">Misc</span></div>
+                    <div class="checklist-item"><input type="checkbox" id="i49"><label class="item-label" for="i49">Sunglasses</label></div>
+                    <div class="checklist-item"><input type="checkbox" id="i50"><label class="item-label" for="i50">Umbrella</label></div>
+                    <div class="checklist-item"><input type="checkbox" id="i51"><label class="item-label" for="i51">Water bottle</label></div>
+                    <div class="checklist-item"><input type="checkbox" id="i52"><label class="item-label" for="i52">Travel snacks</label></div>
+                    <div class="checklist-item"><input type="checkbox" id="i53"><label class="item-label" for="i53">Day backpack</label></div>
+                    <div class="checklist-item"><input type="checkbox" id="i54"><label class="item-label" for="i54">Laundry bags</label></div>
+                    <div class="checklist-item"><input type="checkbox" id="i55"><label class="item-label" for="i55">Entertainment</label></div>
+                </div>
+            </div>
+            <div class="header">
+                <div class="actions">
+                    <button class="btn btn-secondary" onclick="resetChecklist()">Reset All</button>
+                    <button class="btn btn-primary" onclick="window.print()">Print</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let map, infoWindows = [];
+        
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+            if (tabName === 'map' && !map) initMap();
+        }
+
+        function initMap() {
+            map = new google.maps.Map(document.getElementById('google-map'), {
+                zoom: 10,
+                center: { lat: 30.7, lng: 121.05 }
+            });
+
+            const locations = [
+                { name: 'Zhejiang Rongchen Technology', address: 'No. 735 Yintan Road, Haiyan County', position: { lat: 30.4850, lng: 120.9200 }, icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png', description: 'Test facility for PSD Doorway Tests' },
+                { name: 'Courtyard by Marriott Pinghu', address: 'No.288 Wenwei Road, Pinghu', position: { lat: 30.6965, lng: 121.0147 }, icon: 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png', description: 'Hotel option 1' },
+                { name: 'Pullman Jiaxing Pinghu', address: 'No 777 Fenshou Road, Pinghu', position: { lat: 30.6905, lng: 121.0245 }, icon: 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png', description: 'Hotel option 2' },
+                { name: 'Shanghai Pudong Airport', address: 'Terminal 2', position: { lat: 31.1443, lng: 121.8083 }, icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png', description: 'TG662 & TG665' }
+            ];
+
+            const bounds = new google.maps.LatLngBounds();
+            locations.forEach(loc => {
+                const marker = new google.maps.Marker({ position: loc.position, map: map, title: loc.name, icon: loc.icon });
+                const infoWindow = new google.maps.InfoWindow({ content: `<div style="padding:10px"><h3 style="margin:0 0 8px 0;color:#1a73e8">${loc.name}</h3><p style="margin:0;font-size:13px">${loc.address}</p><p style="margin:5px 0 0 0;font-size:12px;color:#666">${loc.description}</p></div>` });
+                infoWindows.push(infoWindow);
+                marker.addListener('click', () => { infoWindows.forEach(iw => iw.close()); infoWindow.open(map, marker); });
+                bounds.extend(loc.position);
+            });
+
+            new google.maps.Polyline({
+                path: [locations[3].position, locations[1].position, locations[0].position],
+                geodesic: true,
+                strokeColor: '#4285f4',
+                strokeOpacity: 0.6,
+                strokeWeight: 3,
+                map: map
+            });
+
+            map.fitBounds(bounds);
+        }
+
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        const progressBar = document.getElementById('progressBar');
+
+        checkboxes.forEach(cb => {
+            const saved = localStorage.getItem(cb.id);
+            if (saved === 'true') {
+                cb.checked = true;
+                cb.parentElement.classList.add('checked');
+            }
+            cb.addEventListener('change', function() {
+                this.parentElement.classList.toggle('checked', this.checked);
+                localStorage.setItem(this.id, this.checked);
+                updateProgress();
+            });
+        });
+
+        function updateProgress() {
+            const total = checkboxes.length;
+            const checked = document.querySelectorAll('input[type="checkbox"]:checked').length;
+            const percentage = Math.round((checked / total) * 100);
+            progressBar.style.width = percentage + '%';
+            progressBar.textContent = percentage + '% Complete (' + checked + '/' + total + ')';
+        }
+
+        function resetChecklist() {
+            if (confirm('Reset all checklist items?')) {
+                checkboxes.forEach(cb => {
+                    cb.checked = false;
+                    cb.parentElement.classList.remove('checked');
+                    localStorage.removeItem(cb.id);
+                });
+                updateProgress();
+            }
+        }
+
+        updateProgress();
+    </script>
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap"></script>
+</body>
+</html>

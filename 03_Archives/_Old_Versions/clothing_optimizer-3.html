@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clothing Optimizer</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin-bottom: 30px; text-align: center; }
+        .header h1 { color: #667eea; font-size: 32px; margin-bottom: 10px; }
+        .header p { color: #666; font-size: 14px; }
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .info-card { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .info-card h3 { color: #667eea; font-size: 18px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+        .info-card ul { list-style: none; }
+        .info-card li { padding: 8px 0; border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between; }
+        .info-card li:last-child { border-bottom: none; }
+        .highlight { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 15px; margin-bottom: 30px; }
+        .highlight h2 { font-size: 24px; margin-bottom: 10px; }
+        .highlight p { opacity: 0.95; line-height: 1.6; }
+        .recommendation { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin-bottom: 20px; }
+        .rec-header { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid #667eea; }
+        .rec-header h2 { color: #333; font-size: 22px; }
+        .day-schedule { background: #f8f9fa; padding: 15px; border-radius: 10px; margin-bottom: 15px; border-left: 4px solid #667eea; }
+        .day-schedule h4 { color: #667eea; margin-bottom: 10px; }
+        .clothing-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px; }
+        .clothing-item { background: white; padding: 12px; border-radius: 8px; border: 2px solid #e0e0e0; }
+        .clothing-item.owned { border-color: #4caf50; background: #e8f5e9; }
+        .clothing-item.need { border-color: #ff9800; background: #fff3e0; }
+        .clothing-item strong { display: block; margin-bottom: 5px; color: #333; }
+        .shopping-list { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .shopping-item { display: flex; justify-content: space-between; align-items: center; padding: 15px; margin-bottom: 10px; background: #f8f9fa; border-radius: 10px; }
+        .shopping-item input[type="checkbox"] { width: 20px; height: 20px; margin-right: 15px; accent-color: #667eea; }
+        .item-details { flex: 1; }
+        .item-details strong { color: #333; display: block; margin-bottom: 5px; }
+        .item-details span { color: #666; font-size: 14px; }
+        .item-price { font-size: 20px; font-weight: bold; color: #667eea; }
+        .total-section { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 10px; margin-top: 20px; display: flex; justify-content: space-between; align-items: center; }
+        .badge { display: inline-block; padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: bold; margin-left: 10px; }
+        .badge-owned { background: #4caf50; color: white; }
+        .badge-need { background: #ff9800; color: white; }
+        .tip-box { background: #fff3e0; border-left: 4px solid #ff9800; padding: 15px; border-radius: 8px; margin-top: 15px; }
+        .tip-box strong { color: #f57c00; display: block; margin-bottom: 5px; }
+        @media (max-width: 768px) {
+            .header h1 { font-size: 24px; }
+            .clothing-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>👔 Clothing Optimizer - China Trip</h1>
+            <p>6 Days | Nov 9-14, 2025 | Jiaxing, China</p>
+        </div>
+
+        <div class="highlight">
+            <h2>📊 สรุปสิ่งที่คุณมีแล้ว (จากใบเสร็จ UNIQLO)</h2>
+            <p><strong>✓ HEATTECH T-shirt</strong> - 1 ตัว (฿790)<br>
+            <strong>✓ HEATTECH Tights</strong> - 1 ตัว (฿790)<br>
+            <strong>✓ HEATTECH Socks</strong> - 1 คู่ (฿190)</p>
+            <p style="margin-top: 15px;"><strong>💡 คำแนะนำ:</strong> สำหรับทริป 6 วัน (5 คืน) ต้องใช้เสื้อผ้าทั้งหมด 6 ชุด แต่สามารถ optimize ได้โดยซักระหว่างทริป หรือสลับใช้บางชิ้น</p>
+        </div>
+
+        <div class="info-grid">
+            <div class="info-card">
+                <h3>🌡️ สภาพอากาศเดือนพฤศจิกายน</h3>
+                <ul>
+                    <li><span>อุณหภูมิกลางวัน</span><strong>15-20°C</strong></li>
+                    <li><span>อุณหภูมิกลางคืน</span><strong>10-15°C</strong></li>
+                    <li><span>สภาพอากาศ</span><strong>หนาวเย็น แห้ง</strong></li>
+                    <li><span>เสื้อผ้าที่เหมาะสม</span><strong>HEATTECH ขนาดหนา</strong></li>
+                </ul>
+            </div>
+            <div class="info-card">
+                <h3>🏭 กิจกรรมในแต่ละวัน</h3>
+                <ul>
+                    <li><span>Day 1</span><strong>เดินทาง + TOT</strong></li>
+                    <li><span>Day 2-4</span><strong>Factory Test (Formal)</strong></li>
+                    <li><span>Day 5</span><strong>Test + เดินทาง</strong></li>
+                    <li><span>เย็น</span><strong>Dinner (Casual)</strong></li>
+                </ul>
+            </div>
+            <div class="info-card">
+                <h3>💼 ความต้องการเสื้อผ้า</h3>
+                <ul>
+                    <li><span>Business Attire</span><strong>4 sets</strong></li>
+                    <li><span>Casual Evening</span><strong>5 sets</strong></li>
+                    <li><span>Underwear</span><strong>6-7 ชุด</strong></li>
+                    <li><span>HEATTECH Base</span><strong>3-4 ชุด</strong></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="recommendation">
+            <div class="rec-header">
+                <h2>📋 แผนการใช้เสื้อผ้า 6 วัน</h2>
+            </div>
+
+            <div class="day-schedule">
+                <h4>Day 1 (Nov 9-10) - เดินทาง + TOT Session</h4>
+                <div class="clothing-grid">
+                    <div class="clothing-item owned"><strong>Base Layer:</strong> HEATTECH T-shirt (มีแล้ว) + HEATTECH Tights (มีแล้ว)</div>
+                    <div class="clothing-item need"><strong>Outer:</strong> เสื้อเชิ้ตแขนยาว + กางเกงขายาว</div>
+                    <div class="clothing-item need"><strong>Evening:</strong> Casual wear สำหรับ dinner</div>
+                </div>
+            </div>
+
+            <div class="day-schedule">
+                <h4>Day 2 (Nov 11) - Factory Test + Welcome Address</h4>
+                <div class="clothing-grid">
+                    <div class="clothing-item need"><strong>Morning:</strong> Business Casual - เสื้อเชิ้ต + กางเกงสแล็ค + Warm Jacket</div>
+                    <div class="clothing-item need"><strong>Base Layer:</strong> HEATTECH T-shirt + Tights</div>
+                    <div class="clothing-item need"><strong>Safety:</strong> Safety shoes (สำคัญ!)</div>
+                    <div class="clothing-item need"><strong>Evening:</strong> Casual wear</div>
+                </div>
+            </div>
+
+            <div class="day-schedule">
+                <h4>Day 3 (Nov 12) - Structure/Frame Test</h4>
+                <div class="clothing-grid">
+                    <div class="clothing-item need"><strong>Morning:</strong> Business Casual - เสื้อเชิ้ต + กางเกงสแล็ค + Warm Jacket</div>
+                    <div class="clothing-item need"><strong>Base Layer:</strong> HEATTECH (ชุดที่ 2)</div>
+                    <div class="clothing-item need"><strong>Evening:</strong> Casual wear</div>
+                </div>
+            </div>
+
+            <div class="day-schedule">
+                <h4>Day 4 (Nov 13) - HHPSD Test</h4>
+                <div class="clothing-grid">
+                    <div class="clothing-item need"><strong>Morning:</strong> Business Casual - เสื้อเชิ้ต + กางเกงสแล็ค + Warm Jacket</div>
+                    <div class="clothing-item need"><strong>Base Layer:</strong> HEATTECH (ชุดที่ 3 หรือซักชุดที่ 1)</div>
+                    <div class="clothing-item need"><strong>Evening:</strong> Casual wear</div>
+                </div>
+            </div>
+
+            <div class="day-schedule">
+                <h4>Day 5 (Nov 14) - Final Test + เดินทางกลับ</h4>
+                <div class="clothing-grid">
+                    <div class="clothing-item need"><strong>Morning:</strong> Business Casual + HEATTECH base</div>
+                    <div class="clothing-item need"><strong>Travel:</strong> เสื้อผ้าสบายๆ สำหรับเครื่องบิน</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="shopping-list">
+            <div class="rec-header">
+                <h2>🛒 รายการที่ต้องซื้อเพิ่ม</h2>
+            </div>
+
+            <div class="shopping-item">
+                <input type="checkbox" id="item1">
+                <div class="item-details">
+                    <strong>HEATTECH T-shirt (แขนยาว)</strong>
+                    <span>จำนวน: 2-3 ตัว เพิ่ม | ใช้เป็น base layer ทุกวัน สลับซัก</span>
+                </div>
+                <div class="item-price">฿790/ตัว</div>
+            </div>
+
+            <div class="shopping-item">
+                <input type="checkbox" id="item2">
+                <div class="item-details">
+                    <strong>HEATTECH Tights (กางเกงรองใน)</strong>
+                    <span>จำนวน: 2 ตัว เพิ่ม | ใช้ใต้กางเกงสูท ช่วยกันหนาว</span>
+                </div>
+                <div class="item-price">฿790/ตัว</div>
+            </div>
+
+            <div class="shopping-item">
+                <input type="checkbox" id="item3">
+                <div class="item-details">
+                    <strong>HEATTECH Socks</strong>
+                    <span>จำนวน: 5-6 คู่ เพิ่ม | รวมที่มีแล้ว = 6-7 คู่ (1 คู่/วัน)</span>
+                </div>
+                <div class="item-price">฿190/คู่</div>
+            </div>
+
+            <div class="shopping-item">
+                <input type="checkbox" id="item4">
+                <div class="item-details">
+                    <strong>Business Shirt (เสื้อเชิ้ตสำหรับใส่กับสูท)</strong>
+                    <span>จำนวน: 2 ตัว | หมุนเวียนใส่ได้ เพราะใส่กับสูทตัวเดิม (มีสูทแล้วใช่มั้ย?)</span>
+                </div>
+                <div class="item-price">฿590/ตัว</div>
+            </div>
+
+            <div class="shopping-item">
+                <input type="checkbox" id="item5">
+                <div class="item-details">
+                    <strong>Casual Wear (เสื้อผ้าสบายๆ)</strong>
+                    <span>จำนวน: 1-2 ชุด | ใช้ของที่มีอยู่แล้วได้ ซื้อเพิ่มแค่ที่ขาดจริงๆ</span>
+                </div>
+                <div class="item-price">฿1,000/ชุด</div>
+            </div>
+
+            <div class="shopping-item" style="opacity: 0.5;">
+                <input type="checkbox" id="item6" disabled>
+                <div class="item-details">
+                    <strong>Underwear (กางเกงใน + เสื้อกล้าม)</strong>
+                    <span>✓ มีอยู่แล้ว | ไม่ต้องซื้อเพิ่ม</span>
+                </div>
+                <div class="item-price" style="color: #4caf50;">✓ พร้อม</div>
+            </div>
+
+            <div class="shopping-item" style="opacity: 0.5;">
+                <input type="checkbox" id="item7" disabled>
+                <div class="item-details">
+                    <strong>Business Jacket/Blazer</strong>
+                    <span>✓ มีอยู่แล้ว | ใช้ของที่มีอยู่ (ถ้ามีแล้วไม่ต้องซื้อเพิ่ม)</span>
+                </div>
+                <div class="item-price" style="color: #4caf50;">✓ พร้อม</div>
+            </div>
+
+            <div class="shopping-item">
+                <input type="checkbox" id="item8">
+                <div class="item-details">
+                    <strong>Warm Jacket (เสื้อแจ็คเก็ตกันหนาว)</strong>
+                    <span>จำนวน: 1 ตัว | จำเป็น! อุณหภูมิ 10-15°C ตอนเย็น/เช้า</span>
+                </div>
+                <div class="item-price">฿1,500-2,000</div>
+            </div>
+
+            <div class="total-section">
+                <div>
+                    <h3>ประมาณการค่าใช้จ่ายเพิ่มเติม (MINIMISED)</h3>
+                    <p style="font-size: 14px; opacity: 0.9; margin-top: 5px;">ซื้อเฉพาะที่จำเป็นจริงๆ</p>
+                </div>
+                <div style="text-align: right;">
+                    <div style="font-size: 32px; font-weight: bold;">฿4,500 - ฿6,500</div>
+                    <div style="font-size: 14px; opacity: 0.9;">รวมที่ซื้อแล้ว ฿1,772</div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <strong>💡 MINIMISED Strategy - ประหยัดสุดๆ:</strong>
+                <ul style="margin-left: 20px; margin-top: 10px; line-height: 1.8;">
+                    <li><strong>HEATTECH Base:</strong> ซื้อเพิ่มแค่ 2 ชุด (รวมที่มี = 3 ชุด) ซักหมุนเวียนทุก 2 วัน</li>
+                    <li><strong>Business Shirts:</strong> ซื้อแค่ 2 ตัว หมุนเวียนใส่ (ใช้กับสูทที่มีอยู่แล้ว)</li>
+                    <li><strong>Casual Wear:</strong> ใช้ของที่มีอยู่ ซื้อเพิ่มแค่ 1-2 ชุด ถ้าจำเป็น</li>
+                    <li><strong>Underwear:</strong> ไม่ต้องซื้อ ใช้ของที่มีอยู่แล้ว ซักในโรงแรมได้</li>
+                    <li><strong>Business Jacket:</strong> ไม่ต้องซื้อ ใช้ของที่มีอยู่แล้ว</li>
+                    <li><strong>Warm Jacket:</strong> ซื้อ 1 ตัว - <strong>จำเป็น!</strong> เพราะอากาศหนาว 10-15°C</li>
+                    <li><strong>Socks:</strong> ซื้อเพิ่ม 5 คู่ เพราะถูก และควรเปลี่ยนทุกวัน</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="recommendation">
+            <div class="rec-header">
+                <h2>🎒 สรุป: คำแนะนำ MINIMISED (ประหยัดสุด)</h2>
+            </div>
+            <div style="font-size: 16px; line-height: 2; color: #333;">
+                <p><strong style="color: #667eea;">✓ สิ่งที่มีแล้ว:</strong> HEATTECH T-shirt (1), HEATTECH Tights (1), HEATTECH Socks (1 คู่)</p>
+                
+                <p style="margin-top: 15px;"><strong style="color: #ff9800;">🛒 ต้องซื้อเพิ่ม (แบบ MINIMISED):</strong></p>
+                <ul style="margin-left: 30px; margin-top: 10px;">
+                    <li>HEATTECH T-shirt: <strong>2 ตัว</strong> เพิ่ม (รวม 3 ตัว) ✓</li>
+                    <li>HEATTECH Tights: <strong>2 ตัว</strong> เพิ่ม (รวม 3 ตัว) ✓</li>
+                    <li>HEATTECH Socks: <strong>5 คู่</strong> เพิ่ม (รวม 6 คู่) ✓</li>
+                    <li>Business Shirts: <strong>2 ตัว</strong> (ใช้กับสูทที่มีอยู่)</li>
+                    <li>Casual Wear: <strong>1-2 ชุด</strong> (ใช้ของที่มีอยู่ส่วนใหญ่)</li>
+                    <li>Warm Jacket: <strong>1 ตัว</strong> (จำเป็น!)</li>
+                    <li style="text-decoration: line-through; color: #999;">Underwear: มีอยู่แล้ว ไม่ต้องซื้อ</li>
+                    <li style="text-decoration: line-through; color: #999;">Business Jacket: มีอยู่แล้ว ไม่ต้องซื้อ</li>
+                </ul>
+
+                <p style="margin-top: 20px; padding: 15px; background: #e8f5e9; border-radius: 8px;"><strong style="color: #4caf50;">💰 ประมาณการรวม (MINIMISED):</strong> ฿4,500-6,500 (รวมที่ซื้อแล้ว ฿1,772 = <strong>฿6,300-8,300 ทั้งหมด</strong>)</p>
+
+                <p style="margin-top: 15px; padding: 15px; background: #fff3e0; border-radius: 8px;"><strong style="color: #f57c00;">🎯 กลยุทธ์ประหยัด:</strong> 
+                <br>• ใช้เสื้อผ้าที่มีอยู่แล้วให้เต็มที่ (สูท, underwear, casual wear)
+                <br>• ซื้อแค่ HEATTECH เพิ่ม (จำเป็นเพราะอากาศหนาว) และ Warm Jacket
+                <br>• Business shirts แค่ 2 ตัว หมุนเวียนใส่กับสูทตัวเดิม
+                <br>• ซักในโรงแรมทุก 2-3 วัน ประหยัดได้เยอะ!</p>
+
+                <p style="margin-top: 15px; padding: 15px; background: #e3f2fd; border-radius: 8px;">
+                <strong style="color: #1976d2;">📋 Shopping List สรุป:</strong>
+                <br>1. UNIQLO HEATTECH: 2 เซ็ต (T-shirt + Tights) = ฿3,160
+                <br>2. HEATTECH Socks: 5 คู่ = ฿950
+                <br>3. Business Shirt: 2 ตัว = ฿1,180
+                <br>4. Warm Jacket: 1 ตัว = ฿1,500-2,000
+                <br>5. Casual wear: 1-2 ชุด (ถ้าจำเป็น) = ฿1,000-2,000
+                <br><strong>รวม: ฿4,500-6,500</strong></p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trip Expense Tracker</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin-bottom: 30px; text-align: center; }
+        .header h1 { color: #667eea; font-size: 32px; margin-bottom: 10px; }
+        .header p { color: #666; font-size: 14px; }
+        .summary-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .summary-card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        .summary-card h3 { color: #666; font-size: 14px; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 1px; }
+        .summary-card .amount { font-size: 28px; font-weight: bold; color: #667eea; }
+        .summary-card.total { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .summary-card.total h3 { color: white; opacity: 0.9; }
+        .summary-card.total .amount { color: white; }
+        .expense-section { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin-bottom: 20px; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid #667eea; }
+        .section-title { font-size: 20px; font-weight: bold; color: #333; }
+        .add-btn { padding: 10px 20px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: all 0.3s; }
+        .add-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4); }
+        .expense-table { width: 100%; border-collapse: collapse; }
+        .expense-table th { background: #f8f9fa; padding: 12px; text-align: left; font-weight: 600; color: #333; border-bottom: 2px solid #e0e0e0; }
+        .expense-table td { padding: 12px; border-bottom: 1px solid #e0e0e0; }
+        .expense-table tr:hover { background: #f8f9fa; }
+        .category-badge { padding: 4px 12px; border-radius: 12px; font-size: 12px; font-weight: bold; display: inline-block; }
+        .cat-clothing { background: #e3f2fd; color: #1976d2; }
+        .cat-documents { background: #f3e5f5; color: #7b1fa2; }
+        .cat-electronics { background: #fff3e0; color: #f57c00; }
+        .cat-toiletries { background: #e8f5e9; color: #388e3c; }
+        .cat-transportation { background: #fce4ec; color: #c2185b; }
+        .cat-accommodation { background: #e0f2f1; color: #00796b; }
+        .cat-other { background: #f5f5f5; color: #616161; }
+        .delete-btn { background: #f44336; color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; }
+        .delete-btn:hover { background: #d32f2f; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
+        .modal.active { display: flex; }
+        .modal-content { background: white; padding: 30px; border-radius: 20px; max-width: 500px; width: 90%; }
+        .modal-content h2 { color: #667eea; margin-bottom: 20px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: 600; color: #333; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; }
+        .form-group textarea { resize: vertical; min-height: 60px; }
+        .modal-actions { display: flex; gap: 10px; margin-top: 20px; }
+        .modal-actions button { flex: 1; padding: 12px; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        .btn-save { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+        .btn-cancel { background: #f0f0f0; color: #333; }
+        .receipt-info { background: #f8f9fa; padding: 10px; border-radius: 8px; font-size: 13px; color: #666; margin-top: 5px; }
+        @media (max-width: 768px) {
+            .header h1 { font-size: 24px; }
+            .expense-table { font-size: 14px; }
+            .expense-table th, .expense-table td { padding: 8px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>💰 China Trip - Expense Tracker</h1>
+            <p>PSD FAT Doorway Test | Nov 9-14, 2025</p>
+        </div>
+
+        <div class="summary-cards">
+            <div class="summary-card">
+                <h3>Clothing</h3>
+                <div class="amount" id="sum-clothing">฿0.00</div>
+            </div>
+            <div class="summary-card">
+                <h3>Documents</h3>
+                <div class="amount" id="sum-documents">฿0.00</div>
+            </div>
+            <div class="summary-card">
+                <h3>Electronics</h3>
+                <div class="amount" id="sum-electronics">฿0.00</div>
+            </div>
+            <div class="summary-card">
+                <h3>Other</h3>
+                <div class="amount" id="sum-other">฿0.00</div>
+            </div>
+            <div class="summary-card total">
+                <h3>Total Spent</h3>
+                <div class="amount" id="sum-total">฿0.00</div>
+            </div>
+        </div>
+
+        <div class="expense-section">
+            <div class="section-header">
+                <div class="section-title">📝 Preparation Expenses</div>
+                <button class="add-btn" onclick="openModal()">+ Add Expense</button>
+            </div>
+            <table class="expense-table">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Category</th>
+                        <th>Amount</th>
+                        <th>Receipt</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="expense-list"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="modal" id="expenseModal">
+        <div class="modal-content">
+            <h2>Add New Expense</h2>
+            <form id="expenseForm">
+                <div class="form-group">
+                    <label>Date</label>
+                    <input type="date" id="exp-date" required>
+                </div>
+                <div class="form-group">
+                    <label>Description</label>
+                    <input type="text" id="exp-description" placeholder="e.g., UNIQLO - HEATTECH items" required>
+                </div>
+                <div class="form-group">
+                    <label>Category</label>
+                    <select id="exp-category" required>
+                        <option value="clothing">Clothing</option>
+                        <option value="documents">Documents (Visa, Photos, etc.)</option>
+                        <option value="electronics">Electronics</option>
+                        <option value="toiletries">Toiletries</option>
+                        <option value="transportation">Transportation</option>
+                        <option value="accommodation">Accommodation</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Amount (฿)</label>
+                    <input type="number" id="exp-amount" step="0.01" placeholder="0.00" required>
+                </div>
+                <div class="form-group">
+                    <label>Receipt/Notes (Optional)</label>
+                    <textarea id="exp-notes" placeholder="Receipt number, store location, or additional notes"></textarea>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" onclick="closeModal()">Cancel</button>
+                    <button type="submit" class="btn-save">Save Expense</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let expenses = [];
+
+        // Initialize with UNIQLO receipt
+        const initialExpense = {
+            id: Date.now(),
+            date: '2025-10-30',
+            description: 'UNIQLO - HEATTECH T-shirt, Tights, Socks',
+            category: 'clothing',
+            amount: 1772.00,
+            notes: 'Receipt: 1030-2025-10-30-53-0134\nUNIQLO Central Festival East Ville\nItems: HEATTECH T-shirt (฿790), HEATTECH tights (฿790), HEATTECH SOCKS (฿190), Shopping bag (฿2)\nVAT included: ฿115.93'
+        };
+
+        expenses.push(initialExpense);
+
+        function loadExpenses() {
+            const saved = localStorage.getItem('tripExpenses');
+            if (saved) {
+                expenses = JSON.parse(saved);
+            } else {
+                expenses = [initialExpense];
+                saveExpenses();
+            }
+        }
+
+        function saveExpenses() {
+            localStorage.setItem('tripExpenses', JSON.stringify(expenses));
+        }
+
+        function renderExpenses() {
+            const tbody = document.getElementById('expense-list');
+            tbody.innerHTML = '';
+
+            expenses.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+            expenses.forEach(exp => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${new Date(exp.date).toLocaleDateString('en-GB')}</td>
+                    <td>
+                        ${exp.description}
+                        ${exp.notes ? `<div class="receipt-info">${exp.notes.substring(0, 100)}${exp.notes.length > 100 ? '...' : ''}</div>` : ''}
+                    </td>
+                    <td><span class="category-badge cat-${exp.category}">${exp.category}</span></td>
+                    <td style="font-weight: bold;">฿${exp.amount.toFixed(2)}</td>
+                    <td>${exp.notes ? '✓' : '-'}</td>
+                    <td><button class="delete-btn" onclick="deleteExpense(${exp.id})">Delete</button></td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            updateSummary();
+        }
+
+        function updateSummary() {
+            const categories = {
+                clothing: 0,
+                documents: 0,
+                electronics: 0,
+                toiletries: 0,
+                transportation: 0,
+                accommodation: 0,
+                other: 0
+            };
+
+            let total = 0;
+
+            expenses.forEach(exp => {
+                if (categories.hasOwnProperty(exp.category)) {
+                    categories[exp.category] += exp.amount;
+                } else {
+                    categories.other += exp.amount;
+                }
+                total += exp.amount;
+            });
+
+            document.getElementById('sum-clothing').textContent = `฿${categories.clothing.toFixed(2)}`;
+            document.getElementById('sum-documents').textContent = `฿${categories.documents.toFixed(2)}`;
+            document.getElementById('sum-electronics').textContent = `฿${categories.electronics.toFixed(2)}`;
+            document.getElementById('sum-other').textContent = `฿${(categories.toiletries + categories.transportation + categories.accommodation + categories.other).toFixed(2)}`;
+            document.getElementById('sum-total').textContent = `฿${total.toFixed(2)}`;
+        }
+
+        function openModal() {
+            document.getElementById('expenseModal').classList.add('active');
+            document.getElementById('exp-date').value = new Date().toISOString().split('T')[0];
+        }
+
+        function closeModal() {
+            document.getElementById('expenseModal').classList.remove('active');
+            document.getElementById('expenseForm').reset();
+        }
+
+        document.getElementById('expenseForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const newExpense = {
+                id: Date.now(),
+                date: document.getElementById('exp-date').value,
+                description: document.getElementById('exp-description').value,
+                category: document.getElementById('exp-category').value,
+                amount: parseFloat(document.getElementById('exp-amount').value),
+                notes: document.getElementById('exp-notes').value
+            };
+
+            expenses.push(newExpense);
+            saveExpenses();
+            renderExpenses();
+            closeModal();
+        });
+
+        function deleteExpense(id) {
+            if (confirm('Delete this expense?')) {
+                expenses = expenses.filter(exp => exp.id !== id);
+                saveExpenses();
+                renderExpenses();
+            }
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('expenseModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        // Initialize
+        loadExpenses();
+        renderExpenses();
+    </script>
+</body>
+</html>

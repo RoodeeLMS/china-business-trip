@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>40L Backpack Packing List</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header { background: white; padding: 30px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin-bottom: 30px; text-align: center; }
+        .header h1 { color: #667eea; font-size: 32px; margin-bottom: 10px; }
+        .header p { color: #666; font-size: 14px; }
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-bottom: 30px; }
+        .stat-card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); text-align: center; }
+        .stat-card h3 { color: #666; font-size: 14px; margin-bottom: 10px; text-transform: uppercase; }
+        .stat-card .value { font-size: 28px; font-weight: bold; color: #667eea; }
+        .stat-card .unit { font-size: 14px; color: #999; }
+        .alert { background: #fff3e0; border-left: 4px solid #ff9800; padding: 15px; border-radius: 8px; margin-bottom: 20px; color: #f57c00; }
+        .alert strong { display: block; margin-bottom: 5px; }
+        .packing-section { background: white; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); margin-bottom: 20px; }
+        .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 3px solid #667eea; }
+        .section-title { font-size: 20px; font-weight: bold; color: #333; display: flex; align-items: center; gap: 10px; }
+        .weight-badge { background: #e8f5e9; color: #4caf50; padding: 5px 12px; border-radius: 12px; font-size: 14px; font-weight: bold; }
+        .item-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; margin-top: 15px; }
+        .packing-item { background: #f8f9fa; padding: 15px; border-radius: 10px; display: flex; align-items: center; gap: 15px; transition: all 0.3s; }
+        .packing-item:hover { background: #e3f2fd; transform: translateX(5px); }
+        .packing-item input[type="checkbox"] { width: 22px; height: 22px; accent-color: #667eea; cursor: pointer; }
+        .item-info { flex: 1; }
+        .item-name { font-weight: 600; color: #333; margin-bottom: 3px; }
+        .item-details { font-size: 13px; color: #666; }
+        .item-weight { font-weight: bold; color: #667eea; font-size: 14px; }
+        .tips-box { background: #e3f2fd; border-left: 4px solid #2196f3; padding: 15px; border-radius: 8px; margin-top: 20px; }
+        .tips-box strong { color: #1976d2; display: block; margin-bottom: 10px; }
+        .tips-box ul { margin-left: 20px; line-height: 1.8; color: #555; }
+        .layer-tag { display: inline-block; padding: 3px 8px; border-radius: 8px; font-size: 11px; font-weight: bold; margin-left: 5px; }
+        .layer-bottom { background: #ffebee; color: #c62828; }
+        .layer-middle { background: #fff3e0; color: #f57c00; }
+        .layer-top { background: #e8f5e9; color: #388e3c; }
+        @media (max-width: 768px) {
+            .header h1 { font-size: 24px; }
+            .item-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎒 40L Backpack - Smart Packing List</h1>
+            <p>China Trip | 6 Days | Nov 9-14, 2025</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <h3>Backpack Size</h3>
+                <div class="value">40L</div>
+                <div class="unit">Capacity</div>
+            </div>
+            <div class="stat-card">
+                <h3>Total Weight</h3>
+                <div class="value" id="totalWeight">0.0</div>
+                <div class="unit">kg (recommended < 8kg)</div>
+            </div>
+            <div class="stat-card">
+                <h3>Items Packed</h3>
+                <div class="value" id="itemsPacked">0/48</div>
+            </div>
+            <div class="stat-card">
+                <h3>Space Used</h3>
+                <div class="value" id="spaceUsed">0</div>
+                <div class="unit">%</div>
+            </div>
+        </div>
+
+        <div class="alert">
+            <strong>⚠️ Airline Carry-On Rules:</strong>
+            ส่วนใหญ่สายการบินอนุญาตกระเป๋าถือ 7-10kg และขนาดไม่เกิน 56x36x23 cm (เช็คกับ Thai Airways TG662/TG665)
+        </div>
+
+        <!-- Clothing -->
+        <div class="packing-section">
+            <div class="section-header">
+                <div class="section-title">👔 เสื้อผ้า (Clothing)</div>
+                <div class="weight-badge">~4.5 kg</div>
+            </div>
+            <div class="item-grid">
+                <div class="packing-item">
+                    <input type="checkbox" id="c1" data-weight="0.3">
+                    <div class="item-info">
+                        <div class="item-name">HEATTECH T-shirt <span class="layer-tag layer-bottom">Bottom Layer</span></div>
+                        <div class="item-details">3 ตัว (มีแล้ว 1 + ซื้อใหม่ 2)</div>
+                    </div>
+                    <div class="item-weight">~300g</div>
+                </div>
+                <div class="packing-item">
+                    <input type="checkbox" id="c2" data-weight="0.3">
+                    <div class="item-info">
+                        <div class="item-name">HEATTECH Tights <span class="layer-tag layer-bottom">Bottom Layer</span></div>
+                        <div class="item-details">3 ตัว (มีแล้ว 1 + ซื้อใหม่ 2)</div>
+                    </div>
+                    <div class="item-weight">~300g</div>
+                </div>
+                <div class="packing-item">
+                    <input type="checkbox" id="c3" data-weight="0.2">
+                    <div class="item-info">
+                        <div class="item-name">HEATTECH Socks</div>
+                        <div class="item-details">6 คู่ (มีแล้ว 1 + ซื้อใหม่ 5)</div>
+                    </div>
+                    <div class="item-weight">~200g</div>
+                </div>
+                <div class="packing-item">
+                    <input type="checkbox" id="c4" data-weight="0.5">
+                    <div class="item-info">
+                        <div class="item-name">Business Shirts <span class="layer-tag layer-middle">Middle Layer</span></div>
+                        <div class="item-details">2 ตัว (ขาว + น้ำเงิน) - Non Iron</div>
+                    </div>
+                    <div class="item-weight">~500g</div>
+                </div>
+                <div class="packing-item">
+                    <input type="checkbox" id="c5" data-weight="0.6">
+                    <div class="item-info">
+                        <div class="item-name">Miracle Air Pants <span class="layer-tag layer-middle">Middle Layer</span></div>
+                        <div class="item-details">1 ตัว (Dark Gray)</div>
+                    </div>
+                    <div class="item-weight">~600g</div>
+                </div>
+                <div class="packing-item">
+                    <input type="checkbox" id="c6" data-weight="0.8">
+                    <div class="item-info">
+                        <div class="item-name">Half-Zip Fleece Black <span class="layer-tag layer-top">Top Layer</span></div>
+                        <div class="item-details">1 ตัว (Warm Jacket)</div>
+                    </div>
+                    <div class="item-weight">~800g</div>
+                </div>
+                <div class="packing-item">
+                    <input type="checkbox" id="c7" data-weight="0.8">
+                    <div class="item-info">
+                        <div class="item-name">Casual Wear</div>
+                        <div class="item-details">2 ชุด (เสื้อ + กางเกง)</div>
+                    </div>
+                    <div class="item-weight">~800g</div>
+                </div>
+                <div class="packing-item">
+                    <input type="checkbox" id="c8" data-weight="0.4">
+                    <div class="item-info">
+                        <div class="item-name">Underwear</div>
+                        <div class="item-details">6-7 ชุด</div>
+                    </div>
+                    <div class="item-weight">~400g</div>
+                </div>
+                <div class="packing-item">
+                    <input type="checkbox" id="c9" data-weight="0.3">
+                    <div class="item-info">
+                        <div class="item-name">Sleepwear</div>
+                        <div class="item-details">1 ชุด</div>
+                    </div>
+                    <div class="item-weight">~300g</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Documents -->
+        <div class="packing-section">
+            <div class="section-header">
+                <div class="section-title">📄 เอกสาร (Documents)</div>
+                <div class="weight-badge">~0.3 kg</div>
+            </div>
+            <div class="item-grid">
+                <div class="packing-item">
+                    <input type="checkbox" id="d1" data-weight="0.05">
+                    <div class="item-info">
+                        <div class="item-name">Passport + Visa</div>
+                        <div class="item-details">เช็คอายุ passport > 6 เดือน</div>
+                    </div>
+                    <div class="item-weight">~50g</div>
+                </div>
+                <div class="packing-item">
+                    <input type="checkbox" id="d2" data-weight="0.05">
+                    <div class="item-info">
+                        <div class="item-name">Flight Tickets</div>
+                        <div class="item-details">TG662/TG665 (Print + Digital)</div>
+                    </div>
+                    <div class="item-weight">~50g</div>
+                </div>
+                <div class="packing-item">
+                    <input type="checkbox" id="d3" data-weight="0.05">
+                    <div class="item-info">
+                        <div class="item-name">Hotel Confirmation</div>
+                        <div class="item-details">Courtyard/Pullman Pinghu</div>
+                    </div>
+                    <div class="item-weight">~50g</div>
+                </div>
+                <div class="packing-item">
+                    <input type="checkbox" id="d4" data-weight="0.05">
+                    <div class="item-info">
+                        <div class="item-name">Travel Insurance</div>
+                        <div class="item-details">Policy + Contact numbers</div>
+                    </div>
+                    <div class="item-weight">~50g</div>
+                </div>
+                <div class="packing-item">
+                    <input type="checkbox" id="d5" data-weight="0.1">
+                    <div class="item-info">
+                        <div class="item-name">Itinerary + Contacts</div>
+                        <div class="item-details">Print ไว้สำรอง</div>
+                    </div>
+                    <div class="item-weight">~100g</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Work Materials -->
+        <div class="packing-section">
+            <div class="section-header">
+                <div class="section-title">💼 อุปกรณ์ทำงาน (Work Materials)</div>
+                <div class="weight-badge">~2.5 kg</div>
+            </div>
+            <div class="item-grid">
+                <div class="packing-item">
+                    <input type="checkbox" id="w1" data-weight="1.5">
+                    <div class="item-info">
+                        <div class="item-name">Laptop + Charger</div>
+                        <div class="item-details">สำหรับทำงาน + เก็บข้อมูล Test</div>
+                    </div>
+                    <div class="item-weight">~1.5kg</div>
+                </div>
+                <div class="packing-item">
+                    <input type="checkbox" id="w2" data-weight="0.3">
+                    <div class="item-info">
+                        <div class="item-name">Technical Documents</div>
+                        <div class="item-details">Workshop Manual, Test Specs</div>
+                    </div>
+                    <div class="item-weight">~300g</div>
+                </div>
+                <div class="packing-item">
+                    <input type="checkbox" id="w3" data-weight="0.1">
+                    <div class="item-info">
+                        <div class="item-name">Notepad + Pens</div>
+                        <div class="item-details">สำหรับจดบันทึก</div>
+                    </div>
+                    <div class="item-weight">~100g</div>
+                </div>
+                <div class="packing-item">
+                    <input type="checkbox" id="w4" data-weight="0.05">
+                    <div class="item-info">
+                        <div class="item-name">Business Cards</div>
+                        <div class="item-details">20-30 ใบ</div>
+                    </div>
+                    <div class="item-weight">~50g</div>
+                </div>
+                <div class="packing-item">
+                    <input type="checkbox" id="w5" data-weight="0.4">
+                    <div class="item-info">
+                        <div class="item-name">Camera</div>
+                        <div class="item-details">สำหรับถ่ายภาพ Test + Documentation</div>
+                    </div>
+                    <div class="item-weight">~400g</div>
+                </div>
+                <div class="packing-item">
+                    <input type="checkbox" id="w6" data-weight="0.05">
+                    <div class="item-info">
+                        <div class="item-name">USB Drives</div>
+                        <div class="item-details">2-3 ตัว (backup data)</div>
+                    </div>
+                    <div class="item-weight">~50g</div>
+                </div>
+                <div class="packing-item">
+                    <input type="checkbox" id="w7" data-weight="0.2">
+                    <div class="item-info">
+                        <div class="item-name">Power Bank</div>
+                        <div class="item-details">10,000 mAh (สำหรับโทรศัพท์)</div>
+                    </div>
+                    <div class="item-weight">~200g</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Electronics -->
+        <div class="packing-section">
+            <div class="section-header">
+                <div class="section-title">🔌 อิเล็กทรอนิกส์ (Electronics)</div>
+                <div class="weight-badge">~0.8 kg</div>
+            </div>
+            <div class="item-grid">
+                <div class="packing-item">
+                    <input type="checkbox" id="e1" data-weight="0.2">
+                    <div class="item-info">
+                        <div class="item-name">Phone + Charger</div>
+                        <div class="item-details">พร้อมสาย USB</div>
+                    </div>
+                    <div class="item-weight">~200g</div>
+                </div>
+                <div class="packing-item">
+                    <input type="checkbox" id="e2" data-weight="0.2">
+                    <div class="item-info">
+                        <div class="item-name">Universal Adapter</div>
+                        <div class="item-details">Type A/I สำหรับจีน</div>
+                    </div>
+                    <div class="item-weight">~200g</div>
+                </div>
+                <div class="packing-item">
+                    <input type="checkbox" id="e3" data-weight="0.1">
+                    <div class="item-info">
+                        <div class="item-name">Headphones/Earbuds</div>
+                        <div class="item-details">สำหรับเครื่องบิน</div>
+                    </div>
+                    <div class="item-weight">~100g</div>
+                </div>
+                <div class="packing-item">
+                    <input type="checkbox" id="e4" data-weight="0.3">
+                    <div class="item-info">
+                        <div class="item-name">Portable WiFi / SIM Card</div>
+                        <div class="item-details">สำหรับอินเทอร์เน็ตในจีน</div>
+                    </div>
+                    <div class="item-weight">~300g</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toiletries -->
+        <div class="packing-section">
+            <div class="section-header">
+                <div class="section-title">🧴 ของใช้ส่วนตัว (Toiletries)</div>
+                <div class="weight-badge">~1.0 kg</div>
+            </div>
+            <div class="item-grid">
+                <div class="packing-item">
+                    <input type="checkbox" id="t1" data-weight="0.1">
+                    <div class="item-info">
+                        <div class="item-name">Toothbrush + Toothpaste</div>
+                        <div class="item-details">ขนาดพกพา</div>
+                    </div>
+                    <div class="item-weight">~100g</div>
+                </div>
+                <div class="packing-item">
+                    <input type="checkbox" id="t2" data-weight="0.2">
+                    <div class="item-info">
+                        <div class="item-name">Shampoo + Soap</div>
+                        <div class="item-details">ขนาดเล็ก หรือใช้ของโรงแรม</div>
+                    </div>
+                    <div class="item-weight">~200g</div>
+                </div>
+                <div class="packing-item">
+                    <input type="checkbox" id="t3" data-weight="0.1">
+                    <div class="item-info">
+                        <div class="item-name">Deodorant</div>
+                        <div class="item-details">ขนาดพกพา < 100ml</div>
+                    </div>
+                    <div class="item-weight">~100g</div>
+                </div>
+                <div class="packing-item">
+                    <input type="checkbox" id="t4" data-weight="0.1">
+                    <div class="item-info">
+                        <div class="item-name">Razor + Shaving Cream</div>
+                        <div class="item-details">ขนาดเล็ก</div>
+                    </div>
+                    <div class="item-weight">~100g</div>
+                </div>
+                <div class="packing-item">
+                    <input type="checkbox" id="t5" data-weight="0.2">
+                    <div class="item-info">
+                        <div class="item-name">Medications</div>
+                        <div class="item-details">ยาประจำตัว + ยาสามัญประจำบ้าน</div>
+                    </div>
+                    <div class="item-weight">~200g</div>
+                </div>
+                <div class="packing-item">
+                    <input type="checkbox" id="t6" data-weight="0.1">
+                    <div class="item-info">
+                        <div class="item-name">First Aid Kit</div>
+                        <div class="item-details">พลาสเตอร์, ยาแก้ปวด, ยาแก้ท้องเสีย</div>
+                    </div>
+                    <div class="item-weight">~100g</div>
+                </div>
+                <div class="packing-item">
+                    <input type="checkbox" id="t7" data-weight="0.05">
+                    <div class="item-info">
+                        <div class="item-name">Hand Sanitizer</div>
+                        <div class="item-details">ขนาดเล็ก < 100ml</div>
+                    </div>
+                    <div class="item-weight">~50g</div>
+                </div>
+                <div class="packing-item">
+                    <input type="checkbox" id="t8" data-weight="0.05">
+                    <div class="item-info">
+                        <div class="item-name">Face Masks</div>
+                        <div class="item-details">5-10 ชิ้น</div>
+                    </div>
+                    <div class="item-weight">~50g</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Miscellaneous -->
+        <div class="packing-section">
+            <div class="section-header">
+                <div class="section-title">🎒 อื่นๆ (Miscellaneous)</div>
+                <div class="weight-badge">~0.9 kg</div>
+            </div>
+            <div class="item-grid">
+                <div class="packing-item">
+                    <input type="checkbox" id="m1" data-weight="0.1">
+                    <div class="item-info">
+                        <div class="item-name">Sunglasses</div>
+                        <div class="item-details">พร้อมเคส</div>
+                    </div>
+                    <div class="item-weight">~100g</div>
+                </div>
+                <div class="packing-item">
+                    <input type="checkbox" id="m2" data-weight="0.2">
+                    <div class="item-info">
+                        <div class="item-name">Umbrella (พับได้)</div>
+                        <div class="item-details">กันฝนและแดด</div>
+                    </div>
+                    <div class="item-weight">~200g</div>
+                </div>
+                <div class="packing-item">
+                    <input type="checkbox" id="m3" data-weight="0.2">
+                    <div class="item-info">
+                        <div class="item-name">Reusable Water Bottle</div>
+                        <div class="item-details">ขนาด 500ml แบบพับได้</div>
+                    </div>
+                    <div class="item-weight">~200g</div>
+                </div>
+                <div class="packing-item">
+                    <input type="checkbox" id="m4" data-weight="0.1">
+                    <div class="item-info">
+                        <div class="item-name">Travel Snacks</div>
+                        <div class="item-details">ขนม/อาหารเบาๆ สำหรับเครื่องบิน</div>
+                    </div>
+                    <div class="item-weight">~100g</div>
+                </div>
+                <div class="packing-item">
+                    <input type="checkbox" id="m5" data-weight="0.1">
+                    <div class="item-info">
+                        <div class="item-name">Plastic Bags</div>
+                        <div class="item-details">สำหรับเสื้อผ้าสกปรก + ของเปียก</div>
+                    </div>
+                    <div class="item-weight">~100g</div>
+                </div>
+                <div class="packing-item">
+                    <input type="checkbox" id="m6" data-weight="0.2">
+                    <div class="item-info">
+                        <div class="item-name">Travel Pillow</div>
+                        <div class="item-details">สำหรับเครื่องบิน (แบบพับได้)</div>
+                    </div>
+                    <div class="item-weight">~200g</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Packing Tips -->
+        <div class="packing-section">
+            <div class="section-header">
+                <div class="section-title">💡 Smart Packing Tips</div>
+            </div>
+            <div class="tips-box">
+                <strong>🎯 กลยุทธ์จัดกระเป๋า 40L:</strong>
+                <ul>
+                    <li><strong>Bottom Layer (ก้นกระเป๋า):</strong> ของหนัก - รองเท้า, กางเกง, HEATTECH Tights</li>
+                    <li><strong>Middle Layer (กลาง):</strong> เสื้อผ้าหลัก - Business Shirts, Casual wear พับม้วนแบบ Roll</li>
+                    <li><strong>Top Layer (บน):</strong> ของที่ใช้บ่อย - Fleece Jacket, ของใช้ส่วนตัว</li>
+                    <li><strong>Side Pockets:</strong> ขวดน้ำ, ร่ม, Power Bank</li>
+                    <li><strong>Top Compartment:</strong> เอกสาร, Passport, ของมีค่า</li>
+                    <li><strong>วิธีพับเสื้อผ้า:</strong> ใช้เทคนิค Roll แทน Fold ประหยัดพื้นที่ 30% และไม่ยับ</li>
+                    <li><strong>Compression Bags:</strong> ใส่ HEATTECH + Underwear ลดขนาด 50%</li>
+                    <li><strong>ใส่ Laptop:</strong> ช่องแยกด้านหลังกระเป๋า (ถ้ามี) หรือใส่ใกล้หลัง</li>
+                    <li><strong>น้ำหนัก:</strong> เก็บให้ไม่เกิน 7-8kg สำหรับ Carry-On</li>
+                    <li><strong>ของติดตัว:</strong> Passport, Wallet, Phone, Keys ควรอยู่ใน Pocket หรือ Small Bag แยก</li>
+                </ul>
+            </div>
+
+            <div class="tips-box" style="background: #fff3e0; border-left-color: #ff9800; margin-top: 15px;">
+                <strong>🧊 เทคนิคประหยัดพื้นที่:</strong>
+                <ul>
+                    <li><strong>Wear Your Bulkiest Items:</strong> ใส่เสื้อ Fleece + รองเท้าหนักไปบนเครื่อง</li>
+                    <li><strong>Stuff Shoes:</strong> ยัดถุงเท้า + Underwear ใส่ในรองเท้า</li>
+                    <li><strong>Multi-Purpose Items:</strong> Fleece ใช้ได้ทั้งทำงาน + Casual + หม

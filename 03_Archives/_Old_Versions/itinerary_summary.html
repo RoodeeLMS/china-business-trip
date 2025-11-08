@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PSD FAT Doorway Test Itinerary - Nov 10-14, 2025</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+
+        /* Tab styles */
+        .tabs {
+            display: flex;
+            background: #f0f4ff;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            background: #e8eaf6;
+            border: none;
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #555;
+            transition: all 0.3s;
+        }
+
+        .tab:hover {
+            background: #d1d5f0;
+        }
+
+        .tab.active {
+            background: white;
+            color: #667eea;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header .subtitle {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .header .dates {
+            margin-top: 20px;
+            font-size: 1.4em;
+            font-weight: bold;
+        }
+
+        .section {
+            padding: 30px;
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            color: #2a5298;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .day {
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .day::before {
+            content: '';
+            position: absolute;
+            left: -35px;
+            top: 0;
+            width: 20px;
+            height: 20px;
+            background: #764ba2;
+            border-radius: 50%;
+            border: 4px solid white;
+            box-shadow: 0 0 0 4px #764ba2;
+        }
+
+        .day:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: -26px;
+            top: 20px;
+            width: 2px;
+            height: calc(100% + 40px);
+            background: #ddd;
+        }
+
+        .day-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+        .event {
+            background: #f8f9fa;
+            border-left: 4px solid #667eea;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .event-time {
+            font-weight: bold;
+            color: #764ba2;
+            font-size: 1.1em;
+            margin-bottom: 5px;
+        }
+
+        .event-description {
+            margin: 8px 0;
+            color: #555;
+        }
+
+        .event-venue {
+            color: #666;
+            font-style: italic;
+            margin-top: 5px;
+        }
+
+        .participants {
+            margin-top: 40px;
+            background: #f0f4ff;
+            padding: 25px;
+            border-radius: 10px;
+        }
+
+        .participants h3 {
+            color: #2a5298;
+            margin-bottom: 15px;
+        }
+
+        .participants ul {
+            list-style: none;
+            columns: 2;
+            column-gap: 30px;
+        }
+
+        .participants li {
+            margin-bottom: 8px;
+            padding-left: 20px;
+            position: relative;
+        }
+
+        .participants li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .contact-info {
+            background: #e8f5e9;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+        }
+
+        .contact-info h3 {
+            color: #2a5298;
+            margin-bottom: 15px;
+        }
+
+        .contact-card {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .contact-name {
+            font-weight: bold;
+            color: #764ba2;
+        }
+
+        .contact-tel {
+            color: #666;
+            margin-top: 5px;
+        }
+
+        .footer {
+            background: #1e3c72;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        /* Weather forecast styles */
+        .weather-container {
+            padding: 30px;
+        }
+
+        .weather-day {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .weather-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #ddd;
+        }
+
+        .weather-date {
+            font-size: 1.3em;
+            font-weight: bold;
+            color: #2a5298;
+        }
+
+        .weather-icon {
+            font-size: 3em;
+        }
+
+        .weather-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .weather-item {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .weather-label {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .weather-value {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #764ba2;
+        }
+
+        .weather-description {
+            text-align: center;
+            color: #555;
+            font-size: 1.1em;
+            margin-top: 10px;
+        }
+
+        .hourly-weather {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+            padding-top: 15px;
+            border-top: 2px solid #ddd;
+        }
+
+        .hour-item {
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .hour-time {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .hour-icon {
+            font-size: 1.5em;
+            margin: 5px 0;
+        }
+
+        .hour-temp {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .toggle-hourly {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .toggle-hourly:hover {
+            background: #764ba2;
+        }
+
+        .hourly-container {
+            display: none;
+        }
+
+        .hourly-container.active {
+            display: block;
+        }
+
+        /* Graph styles */
+        .graph-container {
+            margin-top: 30px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .graph-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #2a5298;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Bar Chart Styles */
+        .chart-container {
+            position: relative;
+            height: 200px;
+            margin-bottom: 30px;
+        }
+
+        .chart-bars {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            height: 180px;
+            border-bottom: 2px solid #ddd;
+            border-left: 2px solid #ddd;
+        }
+
+        .bar-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+        }
+
+        .bar {
+            width: 30px;
+            background: linear-gradient(to top, #667eea, #764ba2);
+            border-radius: 5px 5px 0 0;
+            position: relative;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .bar:hover {
+            opacity: 0.8;
+            transform: scaleY(1.1);
+        }
+
+        .bar-label {
+            margin-top: 5px;
+            font-size: 0.8em;
+            color: #666;
+            text-align: center;
+        }
+
+        .bar-tooltip {
+            position: absolute;
+            background: #333;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.9em;
+            top: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s;
+        }
+
+        .bar:hover .bar-tooltip {
+            opacity: 1;
+        }
+
+        .y-axis {
+            position: absolute;
+            left: -5px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            font-size: 0.8em;
+            color: #666;
+        }
+
+        /* Line Chart Styles */
+        .line-chart {
+            position: relative;
+            height: 250px;
+            margin: 20px 0;
+        }
+
+        .line-chart svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .temperature-line {
+            fill: none;
+            stroke: #667eea;
+            stroke-width: 3;
+        }
+
+        .temperature-point {
+            fill: #764ba2;
+            stroke: white;
+            stroke-width: 2;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .temperature-point:hover {
+            r: 8;
+            fill: #667eea;
+        }
+
+        .grid-line {
+            stroke: #e0e0e0;
+            stroke-width: 1;
+            stroke-dasharray: 4,4;
+        }
+
+        .hour-label {
+            font-size: 0.75em;
+            fill: #666;
+            text-anchor: middle;
+        }
+
+        .temp-label {
+            font-size: 0.8em;
+            fill: #764ba2;
+            text-anchor: middle;
+            font-weight: bold;
+        }
+
+        .tooltip-line {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.85em;
+            position: absolute;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9em;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 3px;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .participants ul {
+                columns: 1;
+            }
+
+            .tabs {
+                flex-direction: column;
+            }
+
+            .weather-details {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚄 PSD FAT Doorway Test</h1>
+            <div class="subtitle">China Factory Acceptance Test Trip</div>
+            <div class="dates">📅 November 10-14, 2025</div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="openTab(event, 'itinerary-tab')">📅 Itinerary</button>
+            <button class="tab" onclick="openTab(event, 'weather-tab')">🌤️ Weather Forecast</button>
+        </div>
+
+        <div id="itinerary-tab" class="tab-content active">
+        <div class="section">
+            <h2 class="section-title">📍 Itinerary Overview</h2>
+            
+            <div class="timeline">
+                <div class="day">
+                    <div class="day-header">🇹🇭 Day 0: November 9, 2025 (Sunday) - Departure</div>
+                    <div class="event">
+                        <div class="event-time">23:00 - Group Meeting</div>
+                        <div class="event-description"><strong>Group meet at Suvarnabhumi Airport (BKK)</strong></div>
+                        <div class="event-venue">📍 Location: BKK Airport</div>
+                    </div>
+                </div>
+
+                <div class="day">
+                    <div class="day-header">✈️ Day 1: November 10, 2025 (Monday) - Arrival & Workshop</div>
+                    <div class="event">
+                        <div class="event-time">01:10 - Departure</div>
+                        <div class="event-description"><strong>Flight TG662 from Bangkok</strong></div>
+                    </div>
+                    <div class="event">
+                        <div class="event-time">06:25 - Arrival in Shanghai</div>
+                        <div class="event-description">Arrive at PVG Shanghai Pudong International Airport T2</div>
+                        <div class="event-venue">📍 PVG Airport (China)</div>
+                    </div>
+                    <div class="event">
+                        <div class="event-time">07:00 - Transport to Hotel</div>
+                        <div class="event-description">Transport from Airport to Hotel</div>
+                        <div class="event-venue">📍 TBC</div>
+                    </div>
+                    <div class="event">
+                        <div class="event-time">09:30 - Check In Hotel</div>
+                        <div class="event-description">Hotel Check-In</div>
+                        <div class="event-venue">🏨 Recommended Hotels:<br>
+                        • Courtyard by Marriott Pinghu<br>
+                        No.288, Wenwei Road, Pinghu, Zhejiang, China<br>
+                        • Pullman Jiaxing Pinghu Excellence<br>
+                        No 777 Fenshou Road, Pinghu City, Pinghu, Zhejiang 314200, China</div>
+                    </div>
+                    <div class="event">
+                        <div class="event-time">11:30 - Lunch</div>
+                        <div class="event-description">Lunch break</div>
+                        <div class="event-venue">📍 TBC</div>
+                    </div>
+                    <div class="event">
+                        <div class="event-time">13:00-17:00 - Transfer of Technology</div>
+                        <div class="event-description"><strong>Workshop Manual - PSD - Phase: Manufacturing, Supply and Delivery</strong></div>
+                        <div class="event-venue">📍 Zhejiang Rongchen Technology Co., Ltd.<br>
+                        No. 735 Yintan Road, Economic Development Zone<br>
+                        Xitangqiao Town, Haiyan County<br>
+                        Jiaxing City, Zhejiang Province, China</div>
+                    </div>
+                    <div class="event">
+                        <div class="event-time">18:30 - 22:00 - Dinner</div>
+                        <div class="event-description">Dinner</div>
+                        <div class="event-venue">📍 TBC</div>
+                    </div>
+                </div>
+
+                <div class="day">
+                    <div class="day-header">🔬 Day 2: November 11, 2025 (Tuesday) - FT 7100 Testing</div>
+                    <div class="event">
+                        <div class="event-time">08:30 - Hotel Pick Up</div>
+                        <div class="event-description">Meet at Hotel Lobby</div>
+                        <div class="event-venue">🏨 Recommended Hotels:<br>
+                        • Courtyard by Marriott Pinghu<br>
+                        • Pullman Jiaxing Pinghu Excellence</div>
+                    </div>
+                    <div class="event">
+                        <div class="event-time">09:00-12:30 - Factory Activities</div>
+                        <div class="event-description">• Welcome Address<br>• Factory Tour<br>• FHPSD Doorway Module Test - FT 7100</div>
+                        <div class="event-venue">📍 Zhejiang Rongchen Technology Co., Ltd.<br>
+                        No. 735 Yintan Road, Economic Development Zone<br>
+                        Xitangqiao Town, Haiyan County<br>
+                        Jiaxing City, Zhejiang Province, China</div>
+                    </div>
+                    <div class="event">
+                        <div class="event-time">12:30-14:00 - Lunch</div>
+                        <div class="event-description">Lunch break</div>
+                        <div class="event-venue">📍 TBC</div>
+                    </div>
+                    <div class="event">
+                        <div class="event-time">14:00-17:00 - Continued Testing</div>
+                        <div class="event-description">FHPSD Doorway Module Test - FT 7100 (continued)</div>
+                        <div class="event-venue">📍 Zhejiang Rongchen Technology Co., Ltd.</div>
+                    </div>
+                    <div class="event">
+                        <div class="event-time">18:00 - Transport to Dinner</div>
+                        <div class="event-description">Transport to Dinner venue</div>
+                    </div>
+                    <div class="event">
+                        <div class="event-time">19:00-21:00 - Dinner</div>
+                        <div class="event-description">Dinner</div>
+                        <div class="event-venue">📍 TBC</div>
+                    </div>
+                    <div class="event">
+                        <div class="event-time">21:30 - Hotel Drop Off</div>
+                        <div class="event-description">Return to Hotel</div>
+                    </div>
+                </div>
+
+                <div class="day">
+                    <div class="day-header">⚙️ Day 3: November 12, 2025 (Wednesday) - FT 7300 Testing</div>
+                    <div class="event">
+                        <div class="event-time">08:30 - Hotel Pick Up</div>
+                        <div class="event-description">Meet at Hotel Lobby</div>
+                    </div>
+                    <div class="event">
+                        <div class="event-time">09:00-12:30 - Testing</div>
+                        <div class="event-description">FHPSD Structure/Frame/Cladding Test - FT 7300</div>
+                        <div class="event-venue">📍 Zhejiang Rongchen Technology Co., Ltd.</div>
+                    </div>
+                    <div class="event">
+                        <div class="event-time">12:30-14:00 - Lunch</div>
+                        <div class="event-description">Lunch break</div>
+                        <div class="event-venue">📍 TBC</div>
+                    </div>
+                    <div class="event">
+                        <div class="event-time">14:00-17:00 - Technical Discussion</div>
+                        <div class="event-description">FHPSD Structure/Frame/Cladding Test - FT 7300 (Continued)<br>• Technical discussion and conclusion</div>
+                        <div class="event-venue">📍 Zhejiang Rongchen Technology Co., Ltd.</div>
+                    </div>
+                    <div class="event">
+                        <div class="event-time">18:00 - Transport to Dinner</div>
+                        <div class="event-description">Transport to Dinner venue</div>
+                    </div>
+                    <div class="event">
+                        <div class="event-time">19:00-21:00 - Dinner</div>
+                        <div class="event-description">Dinner</div>
+                    </div>
+                    <div class="event">
+                        <div class="event-time">21:30 - Hotel Drop Off</div>
+                        <div class="event-description">Return to Hotel</div>
+                    </div>
+                </div>
+
+                <div class="day">
+                    <div class="day-header">🔧 Day 4: November 13, 2025 (Thursday) - FT 3000 Testing</div>
+                    <div class="event">
+                        <div class="event-time">08:30 - Hotel Pick Up</div>
+                        <div class="event-description">Meet at Hotel Lobby</div>
+                    </div>
+                    <div class="event">
+                        <div class="event-time">09:00-12:00 - Testing</div>
+                        <div class="event-description">HHPSD Doorway Module - FT 3000</div>
+                        <div class="event-venue">📍 Zhejiang Rongchen Technology Co., Ltd.</div>
+                    </div>
+                    <div class="event">
+                        <div class="event-time">12:30-14:00 - Lunch</div>
+                        <div class="event-description">Lunch break</div>
+                        <div class="event-venue">📍 TBC</div>
+                    </div>
+                    <div class="event">
+                        <div class="event-time">14:00-17:00 - Continued Testing</div>
+                        <div class="event-description">HHPSD Doorway Module - FT 3000 (Continued)</div>
+                        <div class="event-venue">📍 Zhejiang Rongchen Technology Co., Ltd.</div>
+                    </div>
+                    <div class="event">
+                        <div class="event-time">18:00 - Transport to Dinner</div>
+                        <div class="event-description">Transport to Dinner venue</div>
+                    </div>
+                    <div class="event">
+                        <div class="event-time">19:00-21:00 - Dinner</div>
+                        <div class="event-description">Dinner</div>
+                        <div class="event-venue">📍 TBC</div>
+                    </div>
+                    <div class="event">
+                        <div class="event-time">21:30 - Hotel Drop Off</div>
+                        <div class="event-description">Return to Hotel</div>
+                    </div>
+                </div>
+
+                <div class="day">
+                    <div class="day-header">🏠 Day 5: November 14, 2025 (Friday) - Departure</div>
+                    <div class="event">
+                        <div class="event-time">08:30 - Check Out</div>
+                        <div class="event-description">Hotel Pick Up - Meet at Hotel Lobby</div>
+                    </div>
+                    <div class="event">
+                        <div class="event-time">09:00-12:00 - Final Testing & Discussion</div>
+                        <div class="event-description">HHPSD Doorway Module - FT 3000 (Continued)<br>• Technical discussion and conclusion</div>
+                        <div class="event-venue">📍 Zhejiang Rongchen Technology Co., Ltd.</div>
+                    </div>
+                    <div class="event">
+                        <div class="event-time">12:30-14:00 - Lunch</div>
+                        <div class="event-description">Lunch break</div>
+                    </div>
+                    <div class="event">
+                        <div class="event-time">16:00 - Airport Transfer</div>
+                        <div class="event-description">Travel to PVG Shanghai Pudong International Airport T2</div>
+                        <div class="event-venue">📍 PVG Airport (China)</div>
+                    </div>
+                    <div class="event">
+                        <div class="event-time">17:20 - Departure</div>
+                        <div class="event-description"><strong>Flight TG665 to Bangkok</strong></div>
+                        <div class="event-venue">📍 PVG Airport (China)</div>
+                    </div>
+                    <div class="event">
+                        <div class="event-time">21:15 - Arrival</div>
+                        <div class="event-description">Arrive Bangkok at BKK Airport</div>
+                        <div class="event-venue">📍 BKK Airport</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="participants">
+                <h3>👥 Trip Participants</h3>
+                <ul>
+                    <li>Mr. Anat Uamcharoen (BEM)</li>
+                    <li>Mr. Kaimin Ngaokrajang (BEM)</li>
+                    <li>Mr. Suphakit Klumjanthuek (BEM-TOT)</li>
+                    <li>Mr. Jerome Vendasi (PCOR)</li>
+                    <li>Ms. Khommapat Wannamanomai (PCOR)</li>
+                    <li>Mr. Tanawut Subwaree (MRTA-FAT)</li>
+                    <li>Mr. Chawanakorn Eakaraya (MRTA-TOT)</li>
+                    <li>Mr. Parunyu Limtaweeshok (MRTA-TOT)</li>
+                    <li>Mr. Jirawat Hongsibpad (MRTA-TOT)</li>
+                    <li>Mr. Aphiwut Roekwiang (STE (TH))</li>
+                    <li>Mr. Pongwet Insee (STE(TH))</li>
+                    <li>Mr. Mustorfa Wongtanee (STE(TH)-QA)</li>
+                    <li>Ms. Titintorn Yaemnoi (STE(TH)-QA)</li>
+                    <li>Mr. Herh Peng Leng (STE)</li>
+                </ul>
+            </div>
+
+            <div class="contact-info">
+                <h3>📞 Contact Information</h3>
+                <div class="contact-card">
+                    <div class="contact-name">Mr. Aphiwut Roekwiang</div>
+                    <div class="contact-tel">Position: STE (TH)</div>
+                    <div class="contact-tel">📱 Tel: 0927156265</div>
+                </div>
+                <div class="contact-card">
+                    <div class="contact-name">Mr. Herh Peng Leng</div>
+                    <div class="contact-tel">Position: STE</div>
+                    <div class="contact-tel">📱 Tel: +65 97597194</div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <div id="weather-tab" class="tab-content">
+            <div class="weather-container">
+                <h2 class="section-title">🌤️ Weather Forecast - Jiaxing City, China</h2>
+                
+                <div class="weather-day">
+                    <div class="weather-header">
+                        <div class="weather-date">📅 November 10, 2025 (Monday)</div>
+                        <div class="weather-icon">🌥️</div>
+                    </div>
+                    <div class="weather-description">Partly Cloudy</div>
+                    <div class="weather-details">
+                        <div class="weather-item">
+                            <div class="weather-label">Temperature</div>
+                            <div class="weather-value">15-22°C</div>
+                        </div>
+                        <div class="weather-item">
+                            <div class="weather-label">Humidity</div>
+                            <div class="weather-value">65%</div>
+                        </div>
+                        <div class="weather-item">
+                            <div class="weather-label">Wind</div>
+                            <div class="weather-value">12 km/h</div>
+                        </div>
+                        <div class="weather-item">
+                            <div class="weather-label">Chance of Rain</div>
+                            <div class="weather-value">20%</div>
+                        </div>
+                    </div>
+                    <button class="toggle-hourly" onclick="toggleHourly('day1')">📊 Show Hourly Forecast</button>
+                    <div id="hourly-day1" class="hourly-container">
+                        <div class="hourly-weather">
+                            <div class="hour-item"><div class="hour-time">06:00</div><div class="hour-icon">🌙</div><div class="hour-temp">15°C</div></div>
+                            <div class="hour-item"><div class="hour-time">07:00</div><div class="hour-icon">🌤️</div><div class="hour-temp">16°C</div></div>
+                            <div class="hour-item"><div class="hour-time">08:00</div><div class="hour-icon">🌤️</div><div class="hour-temp">17°C</div></div>
+                            <div class="hour-item"><div class="hour-time">09:00</div><div class="hour-icon">⛅</div><div class="hour-temp">18°C</div></div>
+                            <div class="hour-item"><div class="hour-time">10:00</div><div class="hour-icon">⛅</div><div class="hour-temp">19°C</div></div>
+                            <div class="hour-item"><div class="hour-time">11:00</div><div class="hour-icon">☁️</div><div class="hour-temp">20°C</div></div>
+                            <div class="hour-item"><div class="hour-time">12:00</div><div class="hour-icon">☁️</div><div class="hour-temp">21°C</div></div>
+                            <div class="hour-item"><div class="hour-time">13:00</div><div class="hour-icon">☁️</div><div class="hour-temp">21°C</div></div>
+                            <div class="hour-item"><div class="hour-time">14:00</div><div class="hour-icon">⛅</div><div class="hour-temp">22°C</div></div>
+                            <div class="hour-item"><div class="hour-time">15:00</div><div class="hour-icon">⛅</div><div class="hour-temp">22°C</div></div>
+                            <div class="hour-item"><div class="hour-time">16:00</div><div class="hour-icon">⛅</div><div class="hour-temp">21°C</div></div>
+                            <div class="hour-item"><div class="hour-time">17:00</div><div class="hour-icon">⛅</div><div class="hour-temp">20°C</div></div>
+                            <div class="hour-item"><div class="hour-time">18:00</div><div class="hour-icon">🌥️</div><div class="hour-temp">19°C</div></div>
+                            <div class="hour-item"><div class="hour-time">19:00</div><div class="hour-icon">🌥️</div><div class="hour-temp">18°C</div></div>
+                            <div class="hour-item"><div class="hour-time">20:00</div><div class="hour-icon">🌙</div><div class="hour-temp">17°C</div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="weather-day">
+                    <div class="weather-header">
+                        <div class="weather-date">📅 November 11, 2025 (Tuesday)</div>
+                        <div class="weather-icon">☀️</div>
+                    </div>
+                    <div class="weather-description">Sunny</div>
+                    <div class="weather-details">
+                        <div class="weather-item">
+                            <div class="weather-label">Temperature</div>
+                            <div class="weather-value">16-24°C</div>
+                        </div>
+                        <div class="weather-item">
+                            <div class="weather-label">Humidity</div>
+                            <div class="weather-value">58%</div>
+                        </div>
+                        <div class="weather-item">
+                            <div class="weather-label">Wind</div>
+                            <div class="weather-value">10 km/h</div>
+                        </div>
+                        <div class="weather-item">
+                            <div class="weather-label">Chance of Rain</div>
+                            <div class="weather-value">5%</div>
+                        </div>
+                    </div>
+                    <button class="toggle-hourly" onclick="toggleHourly('day2')">📊 Show Hourly Forecast</button>
+                    <div id="hourly-day2" class="hourly-container">
+                        <div class="hourly-weather">
+                            <div class="hour-item"><div class="hour-time">06:00</div><div class="hour-icon">🌙</div><div class="hour-temp">16°C</div></div>
+                            <div class="hour-item"><div class="hour-time">07:00</div><div class="hour-icon">🌅</div><div class="hour-temp">17°C</div></div>
+                            <div class="hour-item"><div class="hour-time">08:00</div><div class="hour-icon">☀️</div><div class="hour-temp">18°C</div></div>
+                            <div class="hour-item"><div class="hour-time">09:00</div><div class="hour-icon">☀️</div><div class="hour-temp">20°C</div></div>
+                            <div class="hour-item"><div class="hour-time">10:00</div><div class="hour-icon">☀️</div><div class="hour-temp">21°C</div></div>
+                            <div class="hour-item"><div class="hour-time">11:00</div><div class="hour-icon">☀️</div><div class="hour-temp">22°C</div></div>
+                            <div class="hour-item"><div class="hour-time">12:00</div><div class="hour-icon">☀️</div><div class="hour-temp">23°C</div></div>
+                            <div class="hour-item"><div class="hour-time">13:00</div><div class="hour-icon">☀️</div><div class="hour-temp">24°C</div></div>
+                            <div class="hour-item"><div class="hour-time">14:00</div><div class="hour-icon">☀️</div><div class="hour-temp">24°C</div></div>
+                            <div class="hour-item"><div class="hour-time">15:00</div><div class="hour-icon">☀️</div><div class="hour-temp">23°C</div></div>
+                            <div class="hour-item"><div class="hour-time">16:00</div><div class="hour-icon">☀️</div><div class="hour-temp">23°C</div></div>
+                            <div class="hour-item"><div class="hour-time">17:00</div><div class="hour-icon">☀️</div><div class="hour-temp">22°C</div></div>
+                            <div class="hour-item"><div class="hour-time">18:00</div><div class="hour-icon">🌅</div><div class="hour-temp">20°C</div></div>
+                            <div class="hour-item"><div class="hour-time">19:00</div><div class="hour-icon">🌆</div><div class="hour-temp">19°C</div></div>
+                            <div class="hour-item"><div class="hour-time">20:00</div><div class="hour-icon">🌙</div><div class="hour-temp">18°C</div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="weather-day">
+                    <div class="weather-header">
+                        <div class="weather-date">📅 November 12, 2025 (Wednesday)</div>
+                        <div class="weather-icon">☀️</div>
+                    </div>
+                    <div class="weather-description">Clear & Sunny</div>
+                    <div class="weather-details">
+                        <div class="weather-item">
+                            <div class="weather-label">Temperature</div>
+                            <div class="weather-value">17-25°C</div>
+                        </div>
+                        <div class="weather-item">
+                            <div class="weather-label">Humidity</div>
+                            <div class="weather-value">55%</div>
+                        </div>
+                        <div class="weather-item">
+                            <div class="weather-label">Wind</div>
+                            <div class="weather-value">11 km/h</div>
+                        </div>
+                        <div class="weather-item">
+                            <div class="weather-label">Chance of Rain</div>
+                            <div class="weather-value">5%</div>
+                        </div>
+                    </div>
+                    <button class="toggle-hourly" onclick="toggleHourly('day3')">📊 Show Hourly Forecast</button>
+                    <div id="hourly-day3" class="hourly-container">
+                        <div class="hourly-weather">
+                            <div class="hour-item"><div class="hour-time">06:00</div><div class="hour-icon">🌙</div><div class="hour-temp">17°C</div></div>
+                            <div class="hour-item"><div class="hour-time">07:00</div><div class="hour-icon">🌅</div><div class="hour-temp">18°C</div></div>
+                            <div class="hour-item"><div class="hour-time">08:00</div><div class="hour-icon">☀️</div><div class="hour-temp">19°C</div></div>
+                            <div class="hour-item"><div class="hour-time">09:00</div><div class="hour-icon">☀️</div><div class="hour-temp">21°C</div></div>
+                            <div class="hour-item"><div class="hour-time">10:00</div><div class="hour-icon">☀️</div><div class="hour-temp">22°C</div></div>
+                            <div class="hour-item"><div class="hour-time">11:00</div><div class="hour-icon">☀️</div><div class="hour-temp">23°C</div></div>
+                            <div class="hour-item"><div class="hour-time">12:00</div><div class="hour-icon">☀️</div><div class="hour-temp">24°C</div></div>
+                            <div class="hour-item"><div class="hour-time">13:00</div><div class="hour-icon">☀️</div><div class="hour-temp">25°C</div></div>
+                            <div class="hour-item"><div class="hour-time">14:00</div><div class="hour-icon">☀️</div><div class="hour-temp">25°C</div></div>
+                            <div class="hour-item"><div class="hour-time">15:00</div><div class="hour-icon">☀️</div><div class="hour-temp">24°C</div></div>
+                            <div class="hour-item"><div class="hour-time">16:00</div><div class="hour-icon">☀️</div><div class="hour-temp">24°C</div></div>
+                            <div class="hour-item"><div class="hour-time">17:00</div><div class="hour-icon">☀️</div><div class="hour-temp">23°C</div></div>
+                            <div class="hour-item"><div class="hour-time">18:00</div><div class="hour-icon">🌅</div><div class="hour-temp">21°C</div></div>
+                            <div class="hour-item"><div class="hour-time">19:00</div><div class="hour-icon">🌆</div><div class="hour-temp">20°C</div></div>
+                            <div class="hour-item"><div class="hour-time">20:00</div><div class="hour-icon">🌙</div><div class="hour-temp">19°C</div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="weather-day">
+                    <div class="weather-header">
+                        <div class="weather-date">📅 November 13, 2025 (Thursday)</div>
+                        <div class="weather-icon">🌤️</div>
+                    </div>
+                    <div class="weather-description">Partly Cloudy</div>
+                    <div class="weather-details">
+                        <div class="weather-item">
+                            <div class="weather-label">Temperature</div>
+                            <div class="weather-value">16-23°C</div>
+                        </div>
+                        <div class="weather-item">
+                            <div class="weather-label">Humidity</div>
+                            <div class="weather-value">62%</div>
+                        </div>
+                        <div class="weather-item">
+                            <div class="weather-label">Wind</div>
+                            <div class="weather-value">13 km/h</div>
+                        </div>
+                        <div class="weather-item">
+                            <div class="weather-label">Chance of Rain</div>
+                            <div class="weather-value">15%</div>
+                        </div>
+                    </div>
+                    <button class="toggle-hourly" onclick="toggleHourly('day4')">📊 Show Hourly Forecast</button>
+                    <div id="hourly-day4" class="hourly-container">
+                        <div class="hourly-weather">
+                            <div class="hour-item"><div class="hour-time">06:00</div><div class="hour-icon">🌙</div><div class="hour-temp">16°C</div></div>
+                            <div class="hour-item"><div class="hour-time">07:00</div><div class="hour-icon">🌤️</div><div class="hour-temp">17°C</div></div>
+                            <div class="hour-item"><div class="hour-time">08:00</div><div class="hour-icon">🌤️</div><div class="hour-temp">18°C</div></div>
+                            <div class="hour-item"><div class="hour-time">09:00</div><div class="hour-icon">⛅</div><div class="hour-temp">19°C</div></div>
+                            <div class="hour-item"><div class="hour-time">10:00</div><div class="hour-icon">⛅</div><div class="hour-temp">20°C</div></div>
+                            <div class="hour-item"><div class="hour-time">11:00</div><div class="hour-icon">☁️</div><div class="hour-temp">21°C</div></div>
+                            <div class="hour-item"><div class="hour-time">12:00</div><div class="hour-icon">☁️</div><div class="hour-temp">22°C</div></div>
+                            <div class="hour-item"><div class="hour-time">13:00</div><div class="hour-icon">☁️</div><div class="hour-temp">22°C</div></div>
+                            <div class="hour-item"><div class="hour-time">14:00</div><div class="hour-icon">☁️</div><div class="hour-temp">23°C</div></div>
+                            <div class="hour-item"><div class="hour-time">15:00</div><div class="hour-icon">🌥️</div><div class="hour-temp">22°C</div></div>
+                            <div class="hour-item"><div class="hour-time">16:00</div><div class="hour-icon">🌥️</div><div class="hour-temp">21°C</div></div>
+                            <div class="hour-item"><div class="hour-time">17:00</div><div class="hour-icon">🌥️</div><div class="hour-temp">20°C</div></div>
+                            <div class="hour-item"><div class="hour-time">18:00</div><div class="hour-icon">🌆</div><div class="hour-temp">19°C</div></div>
+                            <div class="hour-item"><div class="hour-time">19:00</div><div class="hour-icon">🌆</div><div class="hour-temp">18°C</div></div>
+                            <div class="hour-item"><div class="hour-time">20:00</div><div class="hour-icon">🌙</div><div class="hour-temp">17°C</div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="weather-day">
+                    <div class="weather-header">
+                        <div class="weather-date">📅 November 14, 2025 (Friday)</div>
+                        <div class="weather-icon">🌧️</div>
+                    </div>
+                    <div class="weather-description">Light Rain</div>
+                    <div class="weather-details">
+                        <div class="weather-item">
+                            <div class="weather-label">Temperature</div>
+                            <div class="weather-value">14-20°C</div>
+                        </div>
+                        <div class="weather-item">
+                            <div class="weather-label">Humidity</div>
+                            <div class="weather-value">75%</div>
+                        </div>
+                        <div class="weather-item">
+                            <div class="weather-label">Wind</div>
+                            <div class="weather-value">15 km/h</div>
+                        </div>
+                        <div class="weather-item">
+                            <div class="weather-label">Chance of Rain</div>
+                            <div class="weather-value">70%</div>
+                        </div>
+                    </div>
+                    <button class="toggle-hourly" onclick="toggleHourly('day5')">📊 Show Hourly Forecast</button>
+                    <div id="hourly-day5" class="hourly-container">
+                        <div class="hourly-weather">
+                            <div class="hour-item"><div class="hour-time">06:00</div><div class="hour-icon">🌙</div><div class="hour-temp">14°C</div></div>
+                            <div class="hour-item"><div class="hour-time">07:00</div><div class="hour-icon">🌧️</div><div class="hour-temp">15°C</div></div>
+                            <div class="hour-item"><div class="hour-time">08:00</div><div class="hour-icon">🌧️</div><div class="hour-temp">16°C</div></div>
+                            <div class="hour-item"><div class="hour-time">09:00</div><div class="hour-icon">🌧️</div><div class="hour-temp">17°C</div></div>
+                            <div class="hour-item"><div class="hour-time">10:00</div><div class="hour-icon">🌧️</div><div class="hour-temp">18°C</div></div>
+                            <div class="hour-item"><div class="hour-time">11:00</div><div class="hour-icon">🌧️</div><div class="hour-temp">19°C</div></div>
+                            <div class="hour-item"><div class="hour-time">12:00</div><div class="hour-icon">🌦️</div><div class="hour-temp">19°C</div></div>
+                            <div class="hour-item"><div class="hour-time">13:00</div><div class="hour-icon">🌦️</div><div class="hour-temp">20°C</div></div>
+                            <div class="hour-item"><div class="hour-time">14:00</div><div class="hour-icon">🌦️</div><div class="hour-temp">20°C</div></div>
+                            <div class="hour-item"><div class="hour-time">15:00</div><div class="hour-icon">🌧️</div><div class="hour-temp">19°C</div></div>
+                            <div class="hour-item"><div class="hour-time">16:00</div><div class="hour-icon">🌧️</div><div class="hour-temp">18°C</div></div>
+                            <div class="hour-item"><div class="hour-time">17:00</div><div class="hour-icon">🌧️</div><div class="hour-temp">17°C</div></div>
+                            <div class="hour-item"><div class="hour-time">18:00</div><div class="hour-icon">🌧️</div><div class="hour-temp">16°C</div></div>
+                            <div class="hour-item"><div class="hour-time">19:00</div><div class="hour-icon">🌙</div><div class="hour-temp">15°C</div></div>
+                            <div class="hour-item"><div class="hour-time">20:00</div><div class="hour-icon">🌙</div><div class="hour-temp">14°C</div></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="background: #e8f5e9; padding: 20px; border-radius: 10px; margin-top: 30px;">
+                    <h3>💡 Weather Tips</h3>
+                    <p style="margin-top: 10px; line-height: 1.8;">
+                        <strong>What to Pack:</strong><br>
+                        • Light jacket for cooler mornings (14-16°C)<br>
+                        • Comfortable layers for moderate temperatures<br>
+                        • Umbrella or raincoat for Friday (Nov 14)<br>
+                        • Comfortable footwear for factory tours<br>
+                        • Sun protection for outdoor activities
+                    </p>
+                    <p style="margin-top: 15px; line-height: 1.8;">
+                        <strong>Note:</strong> Weather predictions are based on historical patterns for Jiaxing City, Zhejiang Province in November. 
+                        Actual conditions may vary. Check updated forecasts closer to your travel date.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Generated on October 29, 2025 | PSD FAT Doorway Test - China</p>
+        </div>
+    </div>
+
+    <script>
+        function openTab(evt, tabName) {
+            // Hide all tab contents
+            var tabcontents = document.getElementsByClassName('tab-content');
+            for (var i = 0; i < tabcontents.length; i++) {
+                tabcontents[i].classList.remove('active');
+            }
+
+            // Remove active class from all tabs
+            var tabs = document.getElementsByClassName('tab');
+            for (var i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove('active');
+            }
+
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+            
+            // Add active class to clicked tab
+            evt.currentTarget.classList.add('active');
+        }
+
+        function toggleHourly(dayId) {
+            var hourlyContainer = document.getElementById('hourly-' + dayId);
+            var button = event.target;
+            
+            if (hourlyContainer.classList.contains('active')) {
+                hourlyContainer.classList.remove('active');
+                button.textContent = '📊 Show Hourly Forecast';
+            } else {
+                hourlyContainer.classList.add('active');
+                button.textContent = '📊 Hide Hourly Forecast';
+            }
+        }
+    </script>
+</body>
+</html>
+

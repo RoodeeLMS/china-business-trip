@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>China Trip Map</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        #map {
+            height: 100vh;
+            width: 100%;
+        }
+        .info-panel {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            max-width: 350px;
+            z-index: 1000;
+        }
+        .info-panel h2 {
+            margin: 0 0 15px 0;
+            font-size: 18px;
+            color: #1a73e8;
+        }
+        .location-item {
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .location-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .location-name {
+            font-weight: 600;
+            color: #202124;
+            margin-bottom: 4px;
+        }
+        .location-address {
+            font-size: 13px;
+            color: #5f6368;
+            line-height: 1.4;
+        }
+        .legend {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 2px solid #e0e0e0;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 13px;
+        }
+        .legend-marker {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        .airport { background-color: #ea4335; }
+        .hotel { background-color: #fbbc04; }
+        .factory { background-color: #34a853; }
+    </style>
+</head>
+<body>
+    <div class="info-panel">
+        <h2>📍 Trip Locations</h2>
+        <div class="location-item">
+            <div class="location-name">🏭 Zhejiang Rongchen Technology</div>
+            <div class="location-address">No. 735 Yintan Road, Xitangqiao Town, Haiyan County, Jiaxing City, Zhejiang Province</div>
+        </div>
+        <div class="location-item">
+            <div class="location-name">🏨 Courtyard by Marriott Pinghu</div>
+            <div class="location-address">No.288, Wenwei Road, Pinghu, Zhejiang, China</div>
+        </div>
+        <div class="location-item">
+            <div class="location-name">🏨 Pullman Jiaxing Pinghu Excellence</div>
+            <div class="location-address">No 777 Fenshou Road, Pinghu City, Zhejiang</div>
+        </div>
+        <div class="location-item">
+            <div class="location-name">✈️ Shanghai Pudong Airport (PVG)</div>
+            <div class="location-address">Terminal 2</div>
+        </div>
+        <div class="legend">
+            <div class="legend-item">
+                <span class="legend-marker factory"></span>
+                <span>Factory/Test Site</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-marker hotel"></span>
+                <span>Hotels</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-marker airport"></span>
+                <span>Airport</span>
+            </div>
+        </div>
+    </div>
+    <div id="map"></div>
+
+    <script>
+        let map;
+        let infoWindows = [];
+
+        function initMap() {
+            // Center map on Jiaxing area
+            map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 10,
+                center: { lat: 30.7, lng: 121.05 },
+                mapTypeControl: true,
+                streetViewControl: true,
+                fullscreenControl: true
+            });
+
+            const locations = [
+                {
+                    name: 'Zhejiang Rongchen Technology Co., Ltd.',
+                    address: 'No. 735 Yintan Road, Economic Development Zone, Xitangqiao Town, Haiyan County, Jiaxing City, Zhejiang Province, 314300',
+                    position: { lat: 30.5156, lng: 120.9856 },
+                    type: 'factory',
+                    icon: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png',
+                    description: 'Main test facility for FHPSD & HHPSD Doorway Module Tests'
+                },
+                {
+                    name: 'Courtyard by Marriott Pinghu',
+                    address: 'No.288, Wenwei Road, Pinghu, Zhejiang, China',
+                    position: { lat: 30.6965, lng: 121.0147 },
+                    type: 'hotel',
+                    icon: 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png',
+                    description: 'Recommended accommodation option 1'
+                },
+                {
+                    name: 'Pullman Jiaxing Pinghu Excellence',
+                    address: 'No 777 Fenshou Road, Pinghu City, Pinghu, Zhejiang 314200, China',
+                    position: { lat: 30.6905, lng: 121.0245 },
+                    type: 'hotel',
+                    icon: 'http://maps.google.com/mapfiles/ms/icons/yellow-dot.png',
+                    description: 'Recommended accommodation option 2'
+                },
+                {
+                    name: 'Shanghai Pudong International Airport (PVG)',
+                    address: 'Terminal 2, Shanghai, China',
+                    position: { lat: 31.1443, lng: 121.8083 },
+                    type: 'airport',
+                    icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png',
+                    description: 'Arrival/Departure point - TG662 & TG665'
+                }
+            ];
+
+            const bounds = new google.maps.LatLngBounds();
+
+            locations.forEach((location, index) => {
+                const marker = new google.maps.Marker({
+                    position: location.position,
+                    map: map,
+                    title: location.name,
+                    icon: location.icon,
+                    animation: google.maps.Animation.DROP
+                });
+
+                const infoWindow = new google.maps.InfoWindow({
+                    content: `
+                        <div style="max-width: 250px; padding: 10px;">
+                            <h3 style="margin: 0 0 8px 0; color: #1a73e8; font-size: 16px;">${location.name}</h3>
+                            <p style="margin: 0 0 8px 0; font-size: 13px; color: #5f6368;">${location.address}</p>
+                            <p style="margin: 0; font-size: 12px; color: #80868b; font-style: italic;">${location.description}</p>
+                        </div>
+                    `
+                });
+
+                infoWindows.push(infoWindow);
+
+                marker.addListener('click', () => {
+                    infoWindows.forEach(iw => iw.close());
+                    infoWindow.open(map, marker);
+                });
+
+                bounds.extend(location.position);
+            });
+
+            // Add route line from airport to hotel area to factory
+            const routePath = new google.maps.Polyline({
+                path: [
+                    locations[3].position, // Airport
+                    locations[1].position, // Hotel area
+                    locations[0].position  // Factory
+                ],
+                geodesic: true,
+                strokeColor: '#4285f4',
+                strokeOpacity: 0.6,
+                strokeWeight: 3,
+                icons: [{
+                    icon: {
+                        path: google.maps.SymbolPath.FORWARD_CLOSED_ARROW
+                    },
+                    offset: '100%'
+                }]
+            });
+            routePath.setMap(map);
+
+            map.fitBounds(bounds);
+        }
+    </script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB41DRUbKWJHPxaFjMAwdrzWzbVKartNGg&callback=initMap">
+    </script>
+</body>
+</html>
